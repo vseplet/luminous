@@ -5,7 +5,7 @@
     }
   },
   "tasks": {
-    "start": ""
+    "exmaple:hierarchy": "deno run --allow-all ./examples/hierarchy.ts"
   },
 
   "lint": {
