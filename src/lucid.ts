@@ -1,5 +1,9 @@
 import { printf } from '../deps.ts';
-import { colorLevel, Level } from './levels.ts';
+import {
+  colorMessageByLevel,
+  Level,
+  LevelShortName,
+} from './levels.ts';
 
 type LogMessageType = string | TemplateStringsArray;
 
@@ -11,8 +15,12 @@ export class Lucid {
 
   log(level: Level, text: LogMessageType) {
     const msg = typeof text === 'object' ? text.join(' ') : text;
-    const logFrom = new Error().stack?.split('\n')[2];
-    printf(`${colorLevel(level, msg)} ${logFrom}\n`);
+    const logFrom = new Error().stack?.split('\n')[3];
+    printf(
+      `${LevelShortName[level]} ${
+        colorMessageByLevel(level, msg)
+      } ${logFrom}\n`,
+    );
   }
 
   trace(text: LogMessageType) {
