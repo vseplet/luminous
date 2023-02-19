@@ -1,5 +1,6 @@
 import { Level } from './levels.ts';
 import { Logger } from './logger.ts';
+import { LoggerOptionsBuilder } from './options.ts';
 
 interface ICreateLoggerOptions {
   name?: string;
@@ -27,4 +28,6 @@ export function createLogger(
   return logger;
 }
 
-export const log = createLogger();
+export function createOptionsBuilder(): LoggerOptionsBuilder {
+  return new LoggerOptionsBuilder();
+}
