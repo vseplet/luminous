@@ -1,10 +1,6 @@
 import { printf } from '../deps.ts';
-import { formatDate } from './helpers/time.ts';
-import {
-  colorMessageByLevel,
-  Level,
-  LevelShortName,
-} from './levels.ts';
+import { defaultColorizeFormat } from './fomats.ts';
+import { Level } from './levels.ts';
 import { MessageType, Transport } from './types.ts';
 
 export class Logger {
@@ -22,15 +18,15 @@ export class Logger {
    * @param {string} text
    * @returns {string}
    */
-  def(level: Level, text: MessageType): string {
-    const msg = typeof text === 'object' ? text.join(' ') : text;
-    const time = formatDate(new Date(), 'yyyy-MM-dd HH:mm');
-    const log = `${time} [${
-      LevelShortName[level]
-    }] ${this.name} <${this.uuid}>: ${msg}\n`;
+  def(level: Level, msg: MessageType): string {
+    const logString = defaultColorizeFormat({
+      name: this.name,
+      level,
+      msg: typeof msg === 'object' ? msg.join(' ') : msg,
+    });
 
-    printf(colorMessageByLevel(level, log));
-    return msg;
+    printf(logString);
+    return logString;
   }
 
   /**

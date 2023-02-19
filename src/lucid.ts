@@ -1,13 +1,30 @@
+import { Level } from './levels.ts';
 import { Logger } from './logger.ts';
 
-export const log = new Logger();
-
 interface ICreateLoggerOptions {
-  name: string;
+  name?: string;
+  level?: Level;
 }
 
-export function createLogger(options: ICreateLoggerOptions): Logger {
+let defaultLoggerOptions: ICreateLoggerOptions = {
+  name: 'default',
+  level: Level.TRACE,
+};
+
+export function setDefaultOptions(options: ICreateLoggerOptions) {
+  defaultLoggerOptions = options;
+}
+
+export function createLogger(
+  options: ICreateLoggerOptions = defaultLoggerOptions,
+): Logger {
   const logger = new Logger();
-  logger.name = options.name;
+
+  logger.name = options.name || defaultLoggerOptions.name ||
+    'default';
+  logger.level = options.level || defaultLoggerOptions.level || 0;
+
   return logger;
 }
+
+export const log = createLogger();

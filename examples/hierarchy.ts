@@ -1,9 +1,12 @@
 import lucid, { log } from '../mod.ts';
-import { Level } from '../src/levels.ts';
 
 namespace Main {
-  log.def(0, 'this is default log');
-  log.trc`this is trace log`;
+  log.def(lucid.Level.TRACE, 'this is default log');
+  log.trc`
+  this is trace log
+  this is trace log
+  this is trace log`;
+
   log.dbg`this is debug log`;
   log.vrb`this is verbose log`;
   log.inf`this is info log`;

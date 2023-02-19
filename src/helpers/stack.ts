@@ -1,7 +1,7 @@
 /**
  * Get last function name from stack trace
- * @param depth depth of stack trace
- * @returns current function name
+ * @param {number} depth depth of stack trace
+ * @returns {string} current function name
  */
 // https://stackoverflow.com/questions/280389/how-do-you-find-out-the-caller-function-in-javascript
 export function getCallerFunctionName(depth: number = 3) {
@@ -13,8 +13,8 @@ export function getCallerFunctionName(depth: number = 3) {
 
 /**
  * Get file name from stack trace and return it
- * @param depth depth of stack trace
- * @returns current file name
+ * @param {number} depth depth of stack trace
+ * @returns {string} current file name
  */
 export function getCallerFileName(depth: number = 3) {
   const stack = new Error().stack;
