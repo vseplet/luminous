@@ -1,16 +1,6 @@
-import { formatDate } from './helpers/time.ts';
-import {
-  colorMessageByLevel,
-  Level,
-  LevelShortName,
-} from './levels.ts';
-
-interface IFormatOptions {
-  name: string;
-  level: Level;
-  uuid?: string;
-  msg: string;
-}
+import { formatDate } from '../helpers/time.ts';
+import { colorMessageByLevel, LevelShortName } from '../levels.ts';
+import { IFormatOptions } from '../types.ts';
 
 export function defaultColorizeFormat(
   options: IFormatOptions,

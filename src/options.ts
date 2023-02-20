@@ -3,10 +3,11 @@ import { Level } from './levels.ts';
 export interface LoggerOptions {
   name: string;
   level: Level;
+  parent: LoggerOptions | null;
 }
 
 export class LoggerOptionsBuilder {
-  name = '';
+  name = 'default';
   parent?: LoggerOptions;
   level = Level.TRACE;
 
@@ -25,10 +26,15 @@ export class LoggerOptionsBuilder {
     return this;
   }
 
+  addTransport() {
+    return this;
+  }
+
   build(): LoggerOptions {
     return {
       name: this.name,
       level: this.level,
+      parent: this.parent || null,
     };
   }
 }

@@ -1,5 +1,5 @@
 import { printf } from '../deps.ts';
-import { defaultColorizeFormat } from './fomats.ts';
+import { defaultColorizeFormat } from './formatters/textColorFormatter.ts';
 import { Level } from './levels.ts';
 import { MessageType, Transport } from './types.ts';
 

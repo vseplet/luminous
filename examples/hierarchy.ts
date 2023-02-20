@@ -22,28 +22,18 @@ namespace Main {
     name: 'Main',
   });
 
-  const log = lucid.createLogger();
-
+  const log = lucid.createLogger(mainLogerOptions);
+  log.trc`this is trace log`;
   log.dbg`this is debug log`;
   log.vrb`this is verbose log`;
-  log.inf`this is info log`;
-  log.wrn`this is info log`;
-  log.err`this is info log`;
-  log.ftl`this is fatal log`;
 }
 
 namespace ModuleA {
-  const log = lucid.createLogger({
-    name: 'ModuleA',
-  });
-
+  const log = lucid.createLogger(moduleALogerOptions);
   log.inf`this is info log`;
 }
 
 namespace ModuleB {
-  const log = lucid.createLogger({
-    name: 'ModuleB',
-  });
-
-  log.inf`this is info log`;
+  const log = lucid.createLogger(moduleBLogerOptions);
+  log.wrn`this is info log`;
 }
