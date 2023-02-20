@@ -66,6 +66,15 @@ export class Logger {
   }
 
   /**
+   * User
+   * @param {string} msg message
+   * @returns {string} message
+   */
+  usr(msg: MessageType) {
+    return this.def(Level.USER, msg);
+  }
+
+  /**
    * Warn
    * @param {string} msg message
    * @returns {string} message

@@ -31,9 +31,10 @@ namespace Main {
 namespace ModuleA {
   const log = lucid.createLogger(moduleALogerOptions);
   log.inf`this is info log`;
+  log.usr`this is info log`;
 }
 
 namespace ModuleB {
   const log = lucid.createLogger(moduleBLogerOptions);
-  log.wrn`this is info log`;
+  log.wrn`this is warn log`;
 }

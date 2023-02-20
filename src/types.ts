@@ -12,3 +12,9 @@ export interface IFormatOptions {
   uuid?: string;
   msg: string;
 }
+
+
+export interface ICreateLoggerOptions {
+  name?: string;
+  level?: Level;
+}

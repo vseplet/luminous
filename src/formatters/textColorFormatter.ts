@@ -1,5 +1,5 @@
 import { formatDate } from '../helpers/time.ts';
-import { colorMessageByLevel, LevelShortName } from '../levels.ts';
+import { colorStringByLevel, LevelShortName } from '../levels.ts';
 import { IFormatOptions } from '../types.ts';
 
 export function defaultColorizeFormat(
@@ -11,5 +11,5 @@ export function defaultColorizeFormat(
     LevelShortName[options.level]
   }] ${options.name} <${options.uuid}>: ${options.msg}\n`;
 
-  return colorMessageByLevel(options.level, logString);
+  return colorStringByLevel(options.level, logString);
 }
