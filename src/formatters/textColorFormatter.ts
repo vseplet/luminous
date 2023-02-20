@@ -1,6 +1,6 @@
+import { colorStringByLevel } from '../helpers/color.ts';
 import { formatDate } from '../helpers/time.ts';
-import { colorStringByLevel, LevelShortName } from '../levels.ts';
-import { IFormatOptions } from '../types.ts';
+import { IFormatOptions, LevelShortName } from '../types.ts';
 
 export function defaultColorizeFormat(
   options: IFormatOptions,

@@ -1,8 +1,7 @@
-import { Level } from './levels.ts';
+import { Level } from './types.ts';
 import { Logger } from './logger.ts';
 import { LoggerOptionsBuilder } from './options.ts';
-import { ICreateLoggerOptions } from "./types.ts";
-
+import { ICreateLoggerOptions } from './types.ts';
 
 let defaultLoggerOptions: ICreateLoggerOptions = {
   name: 'default',

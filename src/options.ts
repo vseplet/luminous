@@ -1,4 +1,4 @@
-import { Level } from './levels.ts';
+import { Level } from './types.ts';
 
 export interface LoggerOptions {
   name: string;

@@ -1,6 +1,6 @@
 import { printf } from '../deps.ts';
 import { defaultColorizeFormat } from './formatters/textColorFormatter.ts';
-import { Level } from './levels.ts';
+import { Level } from './types.ts';
 import { MessageType, Transport } from './types.ts';
 
 export class Logger {
