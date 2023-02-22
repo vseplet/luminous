@@ -4,11 +4,20 @@ export abstract class Transport {
 
 export type MessageType = string | TemplateStringsArray;
 
+export interface LoggerOptions {
+  name: string;
+  loggingLevel: Level;
+  parentOptions: LoggerOptions | null;
+  excludedLoggingLevels: Level[];
+  transports: Transport[];
+}
+
 export interface IFormatOptions {
   name: string;
   level: Level;
   uuid?: string;
   msg: string;
+  metadata?: any;
 }
 
 export interface ICreateLoggerOptions {
@@ -16,6 +25,17 @@ export interface ICreateLoggerOptions {
   level?: Level;
 }
 
+export abstract class FormatterAbstract {
+  abstract format(): string;
+}
+
+export abstract class TransportAbstract {
+  abstract addLog(): boolean;
+}
+
+/**
+ * Level - The level of the log message
+ */
 export enum Level {
   TRACE,
   DEBUG,
@@ -27,6 +47,9 @@ export enum Level {
   FATAL,
 }
 
+/**
+ * LevelName - The short name of the level
+ */
 export const LevelShortName = {
   [Level.TRACE]: 'TRC',
   [Level.DEBUG]: 'DBG',

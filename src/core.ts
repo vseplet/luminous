@@ -1,15 +1,14 @@
-import { Level } from './types.ts';
-import { Logger } from './logger.ts';
-import { LoggerOptionsBuilder } from './options.ts';
-import { ICreateLoggerOptions } from './types.ts';
+import { Logger } from './Logger.ts';
+import { OptionsBuilder } from './OptionsBuilder.ts';
+import { ICreateLoggerOptions, Level } from './types.ts';
 
-let defaultLoggerOptions: ICreateLoggerOptions = {
+const defaultLoggerOptions: ICreateLoggerOptions = {
   name: 'default',
   level: Level.TRACE,
 };
 
-export function setDefaultOptions(options: ICreateLoggerOptions) {
-  defaultLoggerOptions = options;
+export function createOptions(): OptionsBuilder {
+  return new OptionsBuilder();
 }
 
 export function createLogger(
@@ -22,8 +21,4 @@ export function createLogger(
   logger.level = options.level || defaultLoggerOptions.level || 0;
 
   return logger;
-}
-
-export function createOptionsBuilder(): LoggerOptionsBuilder {
-  return new LoggerOptionsBuilder();
 }

@@ -5,7 +5,7 @@ import { IFormatOptions, LevelShortName } from '../types.ts';
 export function defaultColorizeFormat(
   options: IFormatOptions,
 ): string {
-  const time = formatDate(new Date(), 'yyyy-MM-dd HH:mm');
+  const time = formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss');
 
   const logString = `${time} [${
     LevelShortName[options.level]

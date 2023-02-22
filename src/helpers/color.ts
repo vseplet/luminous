@@ -1,7 +1,12 @@
 import { colors } from '../../deps.ts';
-
 import { Level } from '../types.ts';
 
+/**
+ * Color string by level of log message (for console)
+ * @param level
+ * @param message
+ * @returns string with ANSI color codes
+ */
 export const colorStringByLevel = (
   level: Level,
   message: string,

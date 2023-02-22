@@ -1,16 +1,27 @@
 import { printf } from '../deps.ts';
 import { defaultColorizeFormat } from './formatters/textColorFormatter.ts';
-import { Level } from './types.ts';
-import { MessageType, Transport } from './types.ts';
+import {
+  Level,
+  LoggerOptions,
+  MessageType,
+  Transport,
+} from './types.ts';
 
-export class Logger {
+/**
+ * Logger class for logging messages
+ * @class Logger
+ * @property {string} name
+ * @property {Level} level
+ * @property {string} uuid
+ */
+export class Logger<MT = {}> {
   name = 'default';
   level = Level.TRACE;
   uuid = 'ABCDEF';
   transports: Transport[] = [];
   formatter = undefined;
 
-  constructor() {}
+  constructor(_options: LoggerOptions) {}
 
   /**
    * Log
@@ -18,11 +29,12 @@ export class Logger {
    * @param {string} text
    * @returns {string}
    */
-  def(level: Level, msg: MessageType): string {
+  def(level: Level, msg: MessageType, metadata: MT): string {
     const logString = defaultColorizeFormat({
       name: this.name,
       level,
       msg: typeof msg === 'object' ? msg.join(' ') : msg,
+      metadata,
     });
 
     printf(logString);
@@ -34,8 +46,9 @@ export class Logger {
    * @param {string} msg message
    * @returns {string} message
    */
-  trc(msg: MessageType) {
-    return this.def(Level.TRACE, msg);
+  trc(msg: MessageType, metadata: MT = {} as MT) {
+    metadata;
+    return this.def(Level.TRACE, msg, metadata);
   }
 
   /**
@@ -43,8 +56,8 @@ export class Logger {
    * @param {string} msg message
    * @returns {string} message
    */
-  dbg(msg: MessageType) {
-    return this.def(Level.DEBUG, msg);
+  dbg(msg: MessageType, metadata: MT = {} as MT) {
+    return this.def(Level.DEBUG, msg, metadata);
   }
 
   /**
@@ -52,8 +65,8 @@ export class Logger {
    * @param {string} msg message
    * @returns {string} message
    */
-  vrb(msg: MessageType) {
-    return this.def(Level.VERBOSE, msg);
+  vrb(msg: MessageType, metadata: MT = {} as MT) {
+    return this.def(Level.VERBOSE, msg, metadata);
   }
 
   /**
@@ -61,8 +74,8 @@ export class Logger {
    * @param {string} msg message
    * @returns {string} message
    */
-  inf(msg: MessageType) {
-    return this.def(Level.INFO, msg);
+  inf(msg: MessageType, metadata: MT = {} as MT) {
+    return this.def(Level.INFO, msg, metadata);
   }
 
   /**
@@ -70,8 +83,8 @@ export class Logger {
    * @param {string} msg message
    * @returns {string} message
    */
-  usr(msg: MessageType) {
-    return this.def(Level.USER, msg);
+  usr(msg: MessageType, metadata: MT = {} as MT) {
+    return this.def(Level.USER, msg, metadata);
   }
 
   /**
@@ -79,8 +92,8 @@ export class Logger {
    * @param {string} msg message
    * @returns {string} message
    */
-  wrn(msg: MessageType) {
-    return this.def(Level.WARN, msg);
+  wrn(msg: MessageType, metadata: MT = {} as MT) {
+    return this.def(Level.WARN, msg, metadata);
   }
 
   /**
@@ -88,8 +101,8 @@ export class Logger {
    * @param {string} msg message
    * @returns {string} message
    */
-  err(msg: MessageType) {
-    return this.def(Level.ERROR, msg);
+  err(msg: MessageType, metadata: MT = {} as MT) {
+    return this.def(Level.ERROR, msg, metadata);
   }
 
   /**
@@ -97,7 +110,7 @@ export class Logger {
    * @param {string} msg message
    * @returns {string} message
    */
-  ftl(msg: MessageType) {
-    return this.def(Level.FATAL, msg);
+  ftl(msg: MessageType, metadata: MT = {} as MT) {
+    return this.def(Level.FATAL, msg, metadata);
   }
 }

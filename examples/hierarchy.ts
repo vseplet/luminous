@@ -1,40 +1,37 @@
 import lucid from '../mod.ts';
 
-const mainLogerOptions = lucid.createOptionsBuilder()
+const mainLogerOptions = new lucid.OptionsBuilder()
   .setName('Main')
-  .setLevel(lucid.Level.TRACE)
   .build();
 
-const moduleALogerOptions = lucid.createOptionsBuilder()
+const moduleALogerOptions = new lucid.OptionsBuilder()
+  .setDefaultOptions(mainLogerOptions)
   .setName('ModuleA')
-  .setLevel(lucid.Level.TRACE)
-  .setParent(mainLogerOptions)
+  .setLoggingLevel(lucid.Level.DEBUG)
   .build();
 
-const moduleBLogerOptions = lucid.createOptionsBuilder()
+const moduleBLogerOptions = new lucid.OptionsBuilder()
+  .setDefaultOptions(mainLogerOptions)
   .setName('ModuleB')
-  .setLevel(lucid.Level.TRACE)
-  .setParent(mainLogerOptions)
+  .setLoggingLevel(lucid.Level.USER)
   .build();
 
 namespace Main {
-  lucid.setDefaultOptions({
-    name: 'Main',
-  });
-
-  const log = lucid.createLogger(mainLogerOptions);
+  const log = new lucid.Logger(mainLogerOptions);
   log.trc`this is trace log`;
   log.dbg`this is debug log`;
   log.vrb`this is verbose log`;
 }
 
 namespace ModuleA {
-  const log = lucid.createLogger(moduleALogerOptions);
-  log.inf`this is info log`;
+  const log = new lucid.Logger<{ a: number; b: number }>(
+    moduleALogerOptions,
+  );
+  log.trc(`this is info log`, { a: 1, b: 2 });
   log.usr`this is info log`;
 }
 
 namespace ModuleB {
-  const log = lucid.createLogger(moduleBLogerOptions);
+  const log = new lucid.Logger(moduleBLogerOptions);
   log.wrn`this is warn log`;
 }

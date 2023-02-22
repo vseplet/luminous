@@ -1,3 +1,3 @@
-import { jsonFormatter } from './mod.ts';
-
-export const jsonFormatter = () => {};
+export function jsonFormatter() {
+  return '';
+}

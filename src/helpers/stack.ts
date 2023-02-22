@@ -4,7 +4,7 @@
  * @returns {string} current function name
  */
 // https://stackoverflow.com/questions/280389/how-do-you-find-out-the-caller-function-in-javascript
-export function getCallerFunctionName(depth: number = 3) {
+export function getCallerFunctionName(depth = 3) {
   const stack = new Error().stack;
   const caller = stack?.split('\n')[depth];
   const callerFunctionName = caller?.split(' ')[1];
@@ -16,7 +16,7 @@ export function getCallerFunctionName(depth: number = 3) {
  * @param {number} depth depth of stack trace
  * @returns {string} current file name
  */
-export function getCallerFileName(depth: number = 3) {
+export function getCallerFileName(depth = 3) {
   const stack = new Error().stack;
   const caller = stack?.split('\n')[depth];
   const callerFileName = caller?.split(' ')[0];
