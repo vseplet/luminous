@@ -1,11 +1,14 @@
 import { printf } from '../deps.ts';
-import { defaultColorizeFormat } from './formatters/textColorFormatter.ts';
-import {
-  Level,
-  LoggerOptions,
-  MessageType,
-  Transport,
-} from './types.ts';
+import { TextFormatter } from './formatters/mod.ts';
+import { Level, MessageType, Transport } from './types.ts';
+
+interface LoggerOptions {
+  name: string;
+  loggingLevel: Level;
+  parentOptions: LoggerOptions | null;
+  excludedLoggingLevels: Level[];
+  transports: Transport[];
+}
 
 /**
  * Logger class for logging messages
@@ -14,12 +17,13 @@ import {
  * @property {Level} level
  * @property {string} uuid
  */
+// deno-lint-ignore ban-types
 export class Logger<MT = {}> {
   name = 'default';
   level = Level.TRACE;
   uuid = 'ABCDEF';
   transports: Transport[] = [];
-  formatter = undefined;
+  formatter = new TextFormatter();
 
   constructor(_options: LoggerOptions) {}
 
@@ -30,7 +34,7 @@ export class Logger<MT = {}> {
    * @returns {string}
    */
   def(level: Level, msg: MessageType, metadata: MT): string {
-    const logString = defaultColorizeFormat({
+    const logString = this.formatter.format({
       name: this.name,
       level,
       msg: typeof msg === 'object' ? msg.join(' ') : msg,
@@ -47,7 +51,8 @@ export class Logger<MT = {}> {
    * @returns {string} message
    */
   trc(msg: MessageType, metadata: MT = {} as MT) {
-    metadata;
+    console.log(msg);
+    console.log(arguments);
     return this.def(Level.TRACE, msg, metadata);
   }
 

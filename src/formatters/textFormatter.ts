@@ -1,14 +1,50 @@
+import { Formatter, IDataToFormat } from '../Formatter.ts';
+import { colorStringByLevel } from '../helpers/color.ts';
 import { formatDate } from '../helpers/time.ts';
-import { IFormatOptions, LevelShortName } from '../types.ts';
+import { LevelShortName } from '../types.ts';
 
-export function defaultFormat(
-  options: IFormatOptions,
-): string {
-  const time = formatDate(new Date(), 'yyyy-MM-dd HH:mm');
+/**
+ * ITextFormatterOptions
+ * @interface ITextFormatterOptions
+ * @property {boolean} colorize - default true
+ * @property {boolean} showMetadata - default true
+ * @property {string} timestampPattern - default 'yyyy-MM-dd HH:mm:ss'
+ */
+interface ITextFormatterOptions {
+  showMetadata: boolean;
+  colorize: boolean;
+  timestampPattern: string;
+}
 
-  const logString = `${time} [${
-    LevelShortName[options.level]
-  }] ${options.name} <${options.uuid}>: ${options.msg}\n`;
+const defaultOptions: ITextFormatterOptions = {
+  showMetadata: true,
+  colorize: true,
+  timestampPattern: 'yyyy-MM-dd HH:mm:ss',
+};
 
-  return logString;
+/**
+ * TextFormatter
+ * @class TextFormatter
+ * @extends Formatter
+ * @property {ITextFormatterOptions} options
+ */
+export class TextFormatter extends Formatter<ITextFormatterOptions> {
+  constructor(options = defaultOptions) {
+    super(options, defaultOptions);
+  }
+
+  format(data: IDataToFormat): string {
+    const time = formatDate(
+      new Date(),
+      this.options.timestampPattern,
+    );
+
+    const logString = `${time} [${
+      LevelShortName[data.level]
+    }] ${data.name} <${data.uuid}>: ${data.msg}\n`;
+
+    return this.options.colorize
+      ? colorStringByLevel(data.level, logString)
+      : logString;
+  }
 }
