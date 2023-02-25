@@ -1,5 +1,5 @@
 # Luminous
-Extremely configurable logger for Deno
+Luminous is a extremely configurable logger for Deno written in TypeScript. It provides a simple and flexible way to log events and messages in Deno applications with various levels of severity. With Luminous, developers can configure the logger to meet their specific needs and customize the logging format to suit their preferences.
 
 ### Usage
 ```ts
@@ -9,13 +9,21 @@ const log = new luminous.Logger();
 log.trc`Hello, World!`;
 ```
 
-### Examples
-...
+## Examples
+... TODO
 
 ## Contents
-...
+- [Luminous](#luminous)
+    - [Usage](#usage)
+  - [Examples](#examples)
+  - [Contents](#contents)
+  - [Levels](#levels)
+  - [Logger options](#logger-options)
+  - [Formats](#formats)
+  - [Transports](#transports)
 
-### Levels
+## Levels
+Luminous provides eight different logging levels that enable developers to log events and messages with different levels of severity. Each level is designed to serve a specific purpose and can help developers troubleshoot issues and debug complex problems.<br><br>
 0 TRACE:<br>
 ```ts
 log.trc`This is TRACE log message`;
@@ -65,11 +73,20 @@ log.ftl`This is FATAL log message`;
 ```
 The FATAL level is used to log critical errors that require immediate attention and may cause the application to stop. This level includes messages about unrecoverable errors, such as out-of-memory errors, disk failures, or other catastrophic events.
 
-### Logger options
-...
+## Logger options
+[LoggerOptions](https://github.com/sevapp/luminous/blob/main/src/Logger.ts#L15) in Luminous are a set of configurable settings that enable developers to customize the behavior and functionality of the logger to meet their specific needs. 
+The [OptionsBuilder](https://github.com/sevapp/luminous/blob/main/src/OptionsBuilder.ts) class in Luminous is a utility class that provides a fluent API for building and configuring logger options. It allows developers to create and customize LoggerOptions objects in a flexible and intuitive way, by providing a set of methods for setting various options. For example:
+```ts
+const loggerOptions = new luminous.OptionsBuilder()
+  .setName('Main')
+  .build();
 
-### Formats
-...
+const logger = new luminous.Logger(loggerOptions);
+logger.inf`Hello, World!`;
+```
 
-### Transports
-...
+## Formats
+... TODO
+
+## Transports
+... TODO
