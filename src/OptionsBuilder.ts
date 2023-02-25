@@ -1,4 +1,5 @@
-import { Level, LoggerOptions } from './types.ts';
+import { LoggerOptions } from './Logger.ts';
+import { Level } from './types.ts';
 
 /**
  * OptionsBuilder

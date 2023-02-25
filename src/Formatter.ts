@@ -1,14 +1,25 @@
 import { Level } from './types.ts';
 
+/**
+ * IDataToFormat is the data that is passed to the formatter.
+ * The formatter can use this data to format the log message.
+ */
 export interface IDataToFormat {
   name: string;
   level: Level;
   uuid?: string;
   msg: string;
+  // deno-lint-ignore no-explicit-any
   metadata?: any;
 }
 
-export class Formatter<O extends { [key: string]: any }> {
+/**
+ * AbstractFormatter is the base class for all formatters.
+ */
+export abstract class AbstractFormatter<
+  // deno-lint-ignore no-explicit-any
+  O extends { [key: string]: any },
+> {
   options: O = {} as O;
 
   constructor(
@@ -25,7 +36,10 @@ export class Formatter<O extends { [key: string]: any }> {
     }
   }
 
-  format(_data: IDataToFormat): string {
-    return '';
-  }
+  /**
+   * format formats the data to a string.
+   * @param {IDataToFormat} _data
+   * @returns {string} The formatted string.
+   */
+  abstract format(_data: IDataToFormat): string;
 }

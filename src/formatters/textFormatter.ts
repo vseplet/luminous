@@ -1,4 +1,4 @@
-import { Formatter, IDataToFormat } from '../Formatter.ts';
+import { AbstractFormatter, IDataToFormat } from '../Formatter.ts';
 import { colorStringByLevel } from '../helpers/color.ts';
 import { formatDate } from '../helpers/time.ts';
 import { LevelShortName } from '../types.ts';
@@ -17,7 +17,7 @@ interface ITextFormatterOptions {
 }
 
 const defaultOptions: ITextFormatterOptions = {
-  showMetadata: true,
+  showMetadata: false,
   colorize: true,
   timestampPattern: 'yyyy-MM-dd HH:mm:ss',
 };
@@ -28,7 +28,8 @@ const defaultOptions: ITextFormatterOptions = {
  * @extends Formatter
  * @property {ITextFormatterOptions} options
  */
-export class TextFormatter extends Formatter<ITextFormatterOptions> {
+export class TextFormatter
+  extends AbstractFormatter<ITextFormatterOptions> {
   constructor(options = defaultOptions) {
     super(options, defaultOptions);
   }
@@ -39,9 +40,16 @@ export class TextFormatter extends Formatter<ITextFormatterOptions> {
       this.options.timestampPattern,
     );
 
+    const meta = Object.keys(data.metadata).length > 0 &&
+        this.options.showMetadata
+      ? JSON.stringify(data.metadata, null, 2)
+      : '';
+
     const logString = `${time} [${
       LevelShortName[data.level]
-    }] ${data.name} <${data.uuid}>: ${data.msg}\n`;
+    }] ${data.name}${
+      data.uuid ? ` <${data.uuid}>` : ''
+    }: ${data.msg} ${meta}\n`;
 
     return this.options.colorize
       ? colorStringByLevel(data.level, logString)

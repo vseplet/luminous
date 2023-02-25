@@ -2,7 +2,7 @@ import { printf } from '../deps.ts';
 import { TextFormatter } from './formatters/mod.ts';
 import { Level, MessageType, Transport } from './types.ts';
 
-interface LoggerOptions {
+export interface LoggerOptions {
   name: string;
   loggingLevel: Level;
   parentOptions: LoggerOptions | null;
@@ -51,8 +51,6 @@ export class Logger<MT = {}> {
    * @returns {string} message
    */
   trc(msg: MessageType, metadata: MT = {} as MT) {
-    console.log(msg);
-    console.log(arguments);
     return this.def(Level.TRACE, msg, metadata);
   }
 

@@ -1,4 +1,4 @@
-import { Formatter, IDataToFormat } from '../Formatter.ts';
+import { AbstractFormatter, IDataToFormat } from '../Formatter.ts';
 import { formatDate } from '../helpers/time.ts';
 
 /**
@@ -20,7 +20,8 @@ const defaultOptions: IJsonFormatterOptions = {
  * @extends Formatter
  * @property {IJsonFormatterOptions} options
  */
-export class JsonFormatter extends Formatter<IJsonFormatterOptions> {
+export class JsonFormatter
+  extends AbstractFormatter<IJsonFormatterOptions> {
   constructor(options = defaultOptions) {
     super(options, defaultOptions);
   }
