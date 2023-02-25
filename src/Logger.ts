@@ -1,6 +1,8 @@
 import { AbstractFormatter } from './Formatter.ts';
 import { AbstractTransport } from './Transport.ts';
-import { Level, MessageType } from './types.ts';
+import { Level } from './Level.ts';
+
+export type MessageType = string | TemplateStringsArray;
 
 export type FormatterAndTransports = {
   // deno-lint-ignore no-explicit-any

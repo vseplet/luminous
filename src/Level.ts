@@ -1,10 +1,3 @@
-export type MessageType = string | TemplateStringsArray;
-
-export interface ICreateLoggerOptions {
-  name?: string;
-  level?: Level;
-}
-
 /**
  * Level - The level of the log message
  */

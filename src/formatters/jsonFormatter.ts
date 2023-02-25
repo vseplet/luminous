@@ -1,4 +1,7 @@
-import { AbstractFormatter, IDataToFormat } from '../Formatter.ts';
+import {
+  AbstractFormatter,
+  IDataForFormatting,
+} from '../Formatter.ts';
 import { formatDate } from '../helpers/time.ts';
 
 /**
@@ -24,7 +27,7 @@ export class JsonFormatter
     });
   }
 
-  format(data: IDataToFormat): string {
+  format(data: IDataForFormatting): string {
     const time = formatDate(
       new Date(),
       this.options.timestampPattern,

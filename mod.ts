@@ -3,15 +3,15 @@ import * as transports from './src/transports/mod.ts';
 import * as formatters from './src/formatters/mod.ts';
 import { OptionsBuilder } from './src/OptionsBuilder.ts';
 import { Logger } from './src/Logger.ts';
-import { Level } from './src/types.ts';
+import { Level } from './src/Level.ts';
 
 const lucid = {
-  Logger,
-  OptionsBuilder,
   helpers,
+  Level,
   transports,
   formatters,
-  Level,
+  OptionsBuilder,
+  Logger,
 };
 
 export const log = new Logger(new OptionsBuilder().build());

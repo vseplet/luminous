@@ -1,5 +1,5 @@
 import { colors } from '../../deps.ts';
-import { Level } from '../types.ts';
+import { Level } from '../Level.ts';
 
 /**
  * Color string by level of log message (for console)

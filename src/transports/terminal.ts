@@ -1,11 +1,9 @@
-import { AbstractFormatter } from '../Formatter.ts';
 import { TextFormatter } from '../formatters/TextFormatter.ts';
 import { AbstractTransport } from '../Transport.ts';
-import { Level } from '../types.ts';
+import { Level } from '../Level.ts';
 
 interface TerminalTransportOptions {
-  // deno-lint-ignore no-explicit-any
-  formatter?: AbstractFormatter<any>;
+  // TODO: add options
 }
 
 /**

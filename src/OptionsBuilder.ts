@@ -1,7 +1,9 @@
 import { AbstractFormatter } from './Formatter.ts';
 import { FormatterAndTransports, LoggerOptions } from './Logger.ts';
 import { AbstractTransport } from './Transport.ts';
-import { Level } from './types.ts';
+import { Level } from './Level.ts';
+import { TextFormatter } from './formatters/TextFormatter.ts';
+import { TermianlTransport } from './transports/Terminal.ts';
 
 /**
  * OptionsBuilder
@@ -110,6 +112,11 @@ export class OptionsBuilder {
    * @returns {object} LoggerOptions
    */
   build(): LoggerOptions {
+    const listOfFormatterAndTransports = [
+      ...this.listOfFormatterAndTransports,
+      ...this.parent?.listOfFormatterAndTransports || [],
+    ];
+
     return {
       name: this.name || this.parent?.name || 'defualt',
       loggingLevel: this.parent?.loggingLevel || this.loggingLevel ||
@@ -120,10 +127,15 @@ export class OptionsBuilder {
           ...this.parent?.excludedLoggingLevels || [],
         ]),
       ),
-      listOfFormatterAndTransports: [
-        ...this.listOfFormatterAndTransports,
-        ...this.parent?.listOfFormatterAndTransports || [],
-      ],
+      listOfFormatterAndTransports:
+        listOfFormatterAndTransports.length
+          ? listOfFormatterAndTransports
+          : [
+            {
+              formatter: new TextFormatter(),
+              transports: [new TermianlTransport()],
+            },
+          ],
     };
   }
 }

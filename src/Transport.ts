@@ -1,15 +1,4 @@
-import { Level } from './types.ts';
-
-export class Transport<O> {
-  options: O;
-
-  constructor(options: O) {
-    this.options = options;
-  }
-
-  addLogString(_logString: string): void {
-  }
-}
+import { Level } from './Level.ts';
 
 export abstract class AbstractTransport<
   // deno-lint-ignore no-explicit-any

@@ -1,7 +1,10 @@
-import { AbstractFormatter, IDataToFormat } from '../Formatter.ts';
+import {
+  AbstractFormatter,
+  IDataForFormatting,
+} from '../Formatter.ts';
 import { colorStringByLevel } from '../helpers/color.ts';
 import { formatDate } from '../helpers/time.ts';
-import { LevelShortName } from '../types.ts';
+import { LevelShortName } from '../Level.ts';
 
 /**
  * ITextFormatterOptions
@@ -28,11 +31,11 @@ export class TextFormatter
     super(options, {
       showMetadata: false,
       colorize: true,
-      timestampPattern: 'yyyy-MM-dd HH:mm:ss',
+      timestampPattern: 'HH:mm:ss',
     });
   }
 
-  format(data: IDataToFormat): string {
+  format(data: IDataForFormatting): string {
     const time = formatDate(
       new Date(),
       this.options.timestampPattern,

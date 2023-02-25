@@ -5,6 +5,7 @@ const mainLogerOptions = new lucid.OptionsBuilder()
   .addTransport(
     new lucid.formatters.TextFormatter({
       showMetadata: true,
+      timestampPattern: 'yyyy-MM-dd HH:mm:ss',
     }),
     new lucid.transports.TermianlTransport(),
   )
@@ -22,6 +23,7 @@ const moduleBLogerOptions = new lucid.OptionsBuilder()
 
 namespace Main {
   const log = new lucid.Logger(mainLogerOptions);
+
   log.trc`this is trace log`;
   log.dbg`this is debug log`;
   log.wrn(`this is info log`, { a: 1, b: 2 });

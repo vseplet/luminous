@@ -1,10 +1,10 @@
-import { Level } from './types.ts';
+import { Level } from './Level.ts';
 
 /**
  * IDataToFormat is the data that is passed to the formatter.
  * The formatter can use this data to format the log message.
  */
-export interface IDataToFormat {
+export interface IDataForFormatting {
   name: string;
   level: Level;
   uuid?: string;
@@ -41,5 +41,5 @@ export abstract class AbstractFormatter<
    * @param {IDataToFormat} _data
    * @returns {string} The formatted string.
    */
-  abstract format(_data: IDataToFormat): string;
+  abstract format(_data: IDataForFormatting): string;
 }
