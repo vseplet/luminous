@@ -5,7 +5,7 @@ import { OptionsBuilder } from './src/OptionsBuilder.ts';
 import { Logger } from './src/Logger.ts';
 import { Level } from './src/Level.ts';
 
-const lucid = {
+const luminous = {
   helpers,
   Level,
   transports,
@@ -15,4 +15,4 @@ const lucid = {
 };
 
 export const log = new Logger(new OptionsBuilder().build());
-export default lucid;
+export default luminous;
