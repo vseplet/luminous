@@ -19,7 +19,7 @@ log.trc`Hello, World!`;
   - [Contents](#contents)
   - [Levels](#levels)
   - [Logger options](#logger-options)
-  - [Formats](#formats)
+  - [Formatters](#formatters)
   - [Transports](#transports)
 
 ## Levels
@@ -74,8 +74,8 @@ log.ftl`This is FATAL log message`;
 The FATAL level is used to log critical errors that require immediate attention and may cause the application to stop. This level includes messages about unrecoverable errors, such as out-of-memory errors, disk failures, or other catastrophic events.
 
 ## Logger options
-[LoggerOptions](https://github.com/sevapp/luminous/blob/main/src/Logger.ts#L15) in Luminous are a set of configurable settings that enable developers to customize the behavior and functionality of the logger to meet their specific needs. 
-The [OptionsBuilder](https://github.com/sevapp/luminous/blob/main/src/OptionsBuilder.ts) class in Luminous is a utility class that provides a fluent API for building and configuring logger options. It allows developers to create and customize LoggerOptions objects in a flexible and intuitive way, by providing a set of methods for setting various options. For example:
+[LoggerOptions](./src/Logger.ts) in Luminous are a set of configurable settings that enable developers to customize the behavior and functionality of the logger to meet their specific needs. 
+The [OptionsBuilder](./src/OptionsBuilder.ts) class in Luminous is a utility class that provides a fluent API for building and configuring logger options. It allows developers to create and customize LoggerOptions objects in a flexible and intuitive way, by providing a set of methods for setting various options. For example:
 ```ts
 const loggerOptions = new luminous.OptionsBuilder()
   .setName('Main')
@@ -85,8 +85,27 @@ const logger = new luminous.Logger(loggerOptions);
 logger.inf`Hello, World!`;
 ```
 
-## Formats
-... TODO
+## Formatters
+In Luminous, a [AbstractFormatter](./src/Formatter.ts) is a class that is responsible for formatting log messages into a human-readable string format. The [IDataForFormatting](./src/Formatter.ts) interface defines the data that is passed to the formatter, which includes the name of the logger, the severity level of the log message, the message itself, and any additional metadata that may be attached to the message. Currently, Luminous has two basic forrmaters: [TextFormatter](./src/formatters/TextFormatter.ts) and [JsonFormatter](./src/formatters/JsonFormatter.ts). For example:
+```ts
+// Create a new TextFormatter instance that formats log messages as text with metadata and a custom timestamp pattern.
+const textFormatter = new luminous.formatters.TextFormatter({
+  showMetadata: true,
+  timestampPattern: 'yyyy-MM-dd HH:mm:ss',
+});
+
+// Create a new OptionsBuilder instance to configure the logger options.
+const loggerOptions = new luminous.OptionsBuilder()
+  .setName('Main') // Set the name of the logger to 'Main'.
+  .setTransport(textFormatter, new luminous.transports.TermianlTransport()) // Add the TextFormatter and TerminalTransport to the logger.
+  .build(); // Build the final logger options object.
+
+// Create a new logger instance with the configured options.
+const logger = new luminous.Logger(loggerOptions);
+
+// Log an information message with metadata.
+logger.inf(`Hello, World!`, {meta0: "0", meta1: "1"});
+```
 
 ## Transports
 ... TODO
