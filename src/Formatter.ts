@@ -20,11 +20,11 @@ export abstract class AbstractFormatter<
   // deno-lint-ignore no-explicit-any
   O extends { [key: string]: any },
 > {
-  options: O = {} as O;
+  options: Required<O> = {} as Required<O>;
 
   constructor(
     options: { [K in keyof O]?: O[K] },
-    defaultOptions: O,
+    defaultOptions: Required<O>,
   ) {
     this.options = defaultOptions;
     for (const [key, value] of Object.entries(options)) {

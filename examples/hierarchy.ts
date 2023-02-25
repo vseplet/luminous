@@ -2,24 +2,29 @@ import lucid from '../mod.ts';
 
 const mainLogerOptions = new lucid.OptionsBuilder()
   .setName('Main')
+  .addTransport(
+    new lucid.formatters.TextFormatter({
+      showMetadata: true,
+    }),
+    new lucid.transports.TermianlTransport(),
+  )
   .build();
 
 const moduleALogerOptions = new lucid.OptionsBuilder()
   .setDefaultOptions(mainLogerOptions)
   .setName('ModuleA')
-  .setLoggingLevel(lucid.Level.DEBUG)
   .build();
 
 const moduleBLogerOptions = new lucid.OptionsBuilder()
   .setDefaultOptions(mainLogerOptions)
   .setName('ModuleB')
-  .setLoggingLevel(lucid.Level.USER)
   .build();
 
 namespace Main {
   const log = new lucid.Logger(mainLogerOptions);
   log.trc`this is trace log`;
   log.dbg`this is debug log`;
+  log.wrn(`this is info log`, { a: 1, b: 2 });
   log.vrb`this is verbose log`;
 }
 

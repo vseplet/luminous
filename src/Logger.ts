@@ -1,13 +1,19 @@
-import { printf } from '../deps.ts';
-import { TextFormatter } from './formatters/mod.ts';
-import { Level, MessageType, Transport } from './types.ts';
+import { AbstractFormatter } from './Formatter.ts';
+import { AbstractTransport } from './Transport.ts';
+import { Level, MessageType } from './types.ts';
+
+export type FormatterAndTransports = {
+  // deno-lint-ignore no-explicit-any
+  formatter: AbstractFormatter<any>;
+  // deno-lint-ignore no-explicit-any
+  transports: AbstractTransport<any>[];
+};
 
 export interface LoggerOptions {
   name: string;
   loggingLevel: Level;
-  parentOptions: LoggerOptions | null;
   excludedLoggingLevels: Level[];
-  transports: Transport[];
+  listOfFormatterAndTransports: FormatterAndTransports[];
 }
 
 /**
@@ -20,12 +26,17 @@ export interface LoggerOptions {
 // deno-lint-ignore ban-types
 export class Logger<MT = {}> {
   name = 'default';
-  level = Level.TRACE;
+  loggingLevel = Level.TRACE;
   uuid = 'ABCDEF';
-  transports: Transport[] = [];
-  formatter = new TextFormatter();
+  listOfFormatterAndTransports: FormatterAndTransports[] = [];
 
-  constructor(_options: LoggerOptions) {}
+  constructor(_options: LoggerOptions) {
+    this.name = _options.name;
+    this.loggingLevel = _options.loggingLevel;
+    this.listOfFormatterAndTransports.push(
+      ..._options.listOfFormatterAndTransports,
+    );
+  }
 
   /**
    * Log
@@ -34,15 +45,22 @@ export class Logger<MT = {}> {
    * @returns {string}
    */
   def(level: Level, msg: MessageType, metadata: MT): string {
-    const logString = this.formatter.format({
-      name: this.name,
-      level,
-      msg: typeof msg === 'object' ? msg.join(' ') : msg,
-      metadata,
+    const msgString = typeof msg === 'object' ? msg.join(' ') : msg;
+
+    this.listOfFormatterAndTransports.forEach((combination) => {
+      const logString = combination.formatter.format({
+        name: this.name,
+        level,
+        msg: msgString,
+        metadata,
+      });
+
+      combination.transports.forEach((transport) => {
+        transport.send(level, logString);
+      });
     });
 
-    printf(logString);
-    return logString;
+    return msgString;
   }
 
   /**

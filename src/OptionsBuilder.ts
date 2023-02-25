@@ -1,4 +1,6 @@
-import { LoggerOptions } from './Logger.ts';
+import { AbstractFormatter } from './Formatter.ts';
+import { FormatterAndTransports, LoggerOptions } from './Logger.ts';
+import { AbstractTransport } from './Transport.ts';
 import { Level } from './types.ts';
 
 /**
@@ -7,19 +9,22 @@ import { Level } from './types.ts';
  * @property {string} name
  * @property {Level} level
  * @property {LoggerOptions} parent
+ * @property {Level[]} excludedLoggingLevels
+ * @property {Transport[]} transports
  */
 export class OptionsBuilder {
-  name = 'default';
+  name: string | undefined = undefined;
   parent?: LoggerOptions;
-  loggingLevel = Level.TRACE;
+  loggingLevel: Level | undefined = undefined;
   excludedLoggingLevels: Level[] = [];
+  listOfFormatterAndTransports: FormatterAndTransports[] = [];
 
   /**
    * Set the name of the logger
    * @param name
-   * @returns
+   * @returns {OptionsBuilder}
    */
-  setName(name: string) {
+  setName(name: string): OptionsBuilder {
     this.name = name;
     return this;
   }
@@ -27,9 +32,9 @@ export class OptionsBuilder {
   /**
    * Exclude a level from the logger
    * @param level
-   * @returns
+   * @returns {OptionsBuilder}
    */
-  excludeLevel(level: Level) {
+  excludeLevel(level: Level): OptionsBuilder {
     this.excludedLoggingLevels.push(level);
     return this;
   }
@@ -37,9 +42,9 @@ export class OptionsBuilder {
   /**
    * Exclude levels from the logger
    * @param levels
-   * @returns
+   * @returns {OptionsBuilder}
    */
-  excludeLevels(levels: Level[]) {
+  excludeLevels(levels: Level[]): OptionsBuilder {
     this.excludedLoggingLevels = this.excludedLoggingLevels.concat(
       levels,
     );
@@ -49,9 +54,9 @@ export class OptionsBuilder {
   /**
    * Set the minimal level of the logger (default: Level.TRACE)
    * @param level
-   * @returns
+   * @returns {OptionsBuilder}
    */
-  setLoggingLevel(level: Level) {
+  setLoggingLevel(level: Level): OptionsBuilder {
     this.loggingLevel = level;
     return this;
   }
@@ -67,9 +72,36 @@ export class OptionsBuilder {
   }
 
   /**
-   * @returns
+   * Add a transport to the logger
+   * @param transport
+   * @returns {OptionsBuilder}
    */
-  addTransport() {
+  addTransport(
+    // deno-lint-ignore no-explicit-any
+    formatter: AbstractFormatter<any>,
+    // deno-lint-ignore no-explicit-any
+    transport: AbstractTransport<any>,
+  ): OptionsBuilder {
+    this.listOfFormatterAndTransports.push({
+      formatter,
+      transports: [transport],
+    });
+    return this;
+  }
+
+  /**
+   * Add transports to the logger
+   * @param formatter
+   * @param transports
+   * @returns {OptionsBuilder}
+   */
+  addTransports(
+    // deno-lint-ignore no-explicit-any
+    formatter: AbstractFormatter<any>,
+    // deno-lint-ignore no-explicit-any
+    transports: AbstractTransport<any>[],
+  ): OptionsBuilder {
+    this.listOfFormatterAndTransports.push({ formatter, transports });
     return this;
   }
 
@@ -79,11 +111,19 @@ export class OptionsBuilder {
    */
   build(): LoggerOptions {
     return {
-      name: this.name,
-      loggingLevel: this.loggingLevel,
-      parentOptions: this.parent || null,
-      excludedLoggingLevels: [],
-      transports: [],
+      name: this.name || this.parent?.name || 'defualt',
+      loggingLevel: this.parent?.loggingLevel || this.loggingLevel ||
+        Level.TRACE,
+      excludedLoggingLevels: Array.from(
+        new Set([
+          ...this.excludedLoggingLevels,
+          ...this.parent?.excludedLoggingLevels || [],
+        ]),
+      ),
+      listOfFormatterAndTransports: [
+        ...this.listOfFormatterAndTransports,
+        ...this.parent?.listOfFormatterAndTransports || [],
+      ],
     };
   }
 }

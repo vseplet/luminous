@@ -7,12 +7,8 @@ import { formatDate } from '../helpers/time.ts';
  * @property {string} timestampPattern - default 'yyyy-MM-dd HH:mm:ss'
  */
 interface IJsonFormatterOptions {
-  timestampPattern: string;
+  timestampPattern?: string;
 }
-
-const defaultOptions: IJsonFormatterOptions = {
-  timestampPattern: 'yyyy-MM-dd HH:mm:ss',
-};
 
 /**
  * JsonFormatter
@@ -22,8 +18,10 @@ const defaultOptions: IJsonFormatterOptions = {
  */
 export class JsonFormatter
   extends AbstractFormatter<IJsonFormatterOptions> {
-  constructor(options = defaultOptions) {
-    super(options, defaultOptions);
+  constructor(options = {}) {
+    super(options, {
+      timestampPattern: 'yyyy-MM-dd HH:mm:ss',
+    });
   }
 
   format(data: IDataToFormat): string {

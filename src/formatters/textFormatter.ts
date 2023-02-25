@@ -11,16 +11,10 @@ import { LevelShortName } from '../types.ts';
  * @property {string} timestampPattern - default 'yyyy-MM-dd HH:mm:ss'
  */
 interface ITextFormatterOptions {
-  showMetadata: boolean;
-  colorize: boolean;
-  timestampPattern: string;
+  showMetadata?: boolean;
+  colorize?: boolean;
+  timestampPattern?: string;
 }
-
-const defaultOptions: ITextFormatterOptions = {
-  showMetadata: false,
-  colorize: true,
-  timestampPattern: 'yyyy-MM-dd HH:mm:ss',
-};
 
 /**
  * TextFormatter
@@ -30,8 +24,12 @@ const defaultOptions: ITextFormatterOptions = {
  */
 export class TextFormatter
   extends AbstractFormatter<ITextFormatterOptions> {
-  constructor(options = defaultOptions) {
-    super(options, defaultOptions);
+  constructor(options = {}) {
+    super(options, {
+      showMetadata: false,
+      colorize: true,
+      timestampPattern: 'yyyy-MM-dd HH:mm:ss',
+    });
   }
 
   format(data: IDataToFormat): string {
