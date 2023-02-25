@@ -1,44 +1,42 @@
-import lucid from '../mod.ts';
+import luminous from '../mod.ts';
 
-const mainLogerOptions = new lucid.OptionsBuilder()
+const mainLogerOptions = new luminous.OptionsBuilder()
   .setName('Main')
   .addTransport(
-    new lucid.formatters.TextFormatter({
+    new luminous.formatters.TextFormatter({
       showMetadata: true,
       timestampPattern: 'yyyy-MM-dd HH:mm:ss',
     }),
-    new lucid.transports.TermianlTransport(),
+    new luminous.transports.TermianlTransport(),
   )
   .build();
 
-const moduleALogerOptions = new lucid.OptionsBuilder()
+const moduleALogerOptions = new luminous.OptionsBuilder()
   .setDefaultOptions(mainLogerOptions)
   .setName('ModuleA')
   .build();
 
-const moduleBLogerOptions = new lucid.OptionsBuilder()
+const moduleBLogerOptions = new luminous.OptionsBuilder()
   .setDefaultOptions(mainLogerOptions)
   .setName('ModuleB')
   .build();
 
 namespace Main {
-  const log = new lucid.Logger(mainLogerOptions);
+  const log = new luminous.Logger(mainLogerOptions);
 
   log.trc`this is trace log`;
-  log.dbg`this is debug log`;
-  log.wrn(`this is info log`, { a: 1, b: 2 });
-  log.vrb`this is verbose log`;
 }
 
 namespace ModuleA {
-  const log = new lucid.Logger<{ a: number; b: number }>(
+  const log = new luminous.Logger<{ a: number; b: number }>(
     moduleALogerOptions,
   );
-  log.trc(`this is info log`, { a: 1, b: 2 });
-  log.usr`this is info log`;
+  log.dbg(`this is debug log`, { a: 1, b: 2 });
+  log.usr`this is user log`;
 }
 
 namespace ModuleB {
-  const log = new lucid.Logger(moduleBLogerOptions);
+  const log = new luminous.Logger(moduleBLogerOptions);
   log.wrn`this is warn log`;
+  log.err`this is error log`;
 }

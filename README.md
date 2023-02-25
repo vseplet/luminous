@@ -12,13 +12,19 @@ log.trc`Hello, World!`;
 ```
 
 ## Examples
-
-... TODO
++ different logs by logging levels: [simple.ts](./examples/simple.ts)
+```bash
+deno task exmaple:simple
+```
++ inheritance of options when creating new loggers: [hierarchy.ts](./examples/hierarchy.ts), run:
+```bash
+deno task exmaple:hierarchy
+```
 
 ## Contents
 
 - [Luminous](#luminous)
-  - [Usage](#usage)
+    - [Usage](#usage)
   - [Examples](#examples)
   - [Contents](#contents)
   - [Levels](#levels)
@@ -124,8 +130,8 @@ const loggerOptions = new luminous.OptionsBuilder()
 // Create a new logger instance with the configured options.
 const logger = new luminous.Logger(loggerOptions);
 
-// Log an information message with metadata.
-logger.inf(`Hello, World!`, { meta0: '0', meta1: '1' });
+// Log an information message.
+logger.inf(`Hello, World!`);
 ```
 
 ## Formatters
@@ -138,4 +144,19 @@ const textFormatter = new luminous.formatters.TextFormatter({
   showMetadata: true,
   timestampPattern: 'yyyy-MM-dd HH:mm:ss',
 });
+
+// Create a new OptionsBuilder instance to configure the logger options.
+const loggerOptions = new luminous.OptionsBuilder()
+  .setName('Main') // Set the name of the logger to 'Main'.
+  .setTransport(
+    textFormatter,
+    new luminous.transports.TermianlTransport(),
+  ) // Add the TextFormatter and TerminalTransport to the logger.
+  .build(); // Build the final logger options object.
+
+// Create a new logger instance with the configured options.
+const logger = new luminous.Logger(loggerOptions);
+
+// Log an information message with metadata.
+logger.inf(`Hello, World!`, { meta0: '0', meta1: '1' });
 ```
