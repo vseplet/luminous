@@ -1,0 +1,55 @@
+{
+  "test": {
+    "files": {
+      "include": ["tests/"]
+    }
+  },
+  "tasks": {
+    "exmaple:hierarchy": "deno run --allow-all ./examples/hierarchy.ts",
+    "exmaple:simple": "deno run --allow-all ./examples/simple.ts"
+  },
+
+  "lint": {
+    "files": {
+      "include": ["src/"]
+    },
+    "rules": {
+      "tags": ["recommended"],
+      "include": ["ban-untagged-todo"],
+      "exclude": []
+    }
+  },
+
+  "fmt": {
+    "options": {
+      "useTabs": false,
+      "lineWidth": 70,
+      "indentWidth": 2,
+      "singleQuote": true,
+      "proseWrap": "preserve"
+    },
+
+    "files": {
+      "exclude": [
+        ".vacode",
+        ".idea",
+        ".fleet",
+        ".git"
+      ]
+    }
+  },
+
+  "compilerOptions": {
+    "allowJs": false,
+    "strict": true,
+    "alwaysStrict": true,
+    "useUnknownInCatchVariables": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "noUnusedParameters": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "exactOptionalPropertyTypes": true
+  }
+}
