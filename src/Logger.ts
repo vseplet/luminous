@@ -1,6 +1,7 @@
 import { AbstractFormatter } from './Formatter.ts';
 import { AbstractTransport } from './Transport.ts';
 import { Level } from './Level.ts';
+import { OptionsBuilder } from './OptionsBuilder.ts';
 
 export type MessageType = string | TemplateStringsArray;
 
@@ -32,11 +33,11 @@ export class Logger<MT = {}> {
   uuid = 'ABCDEF';
   listOfFormatterAndTransports: FormatterAndTransports[] = [];
 
-  constructor(_options: LoggerOptions) {
-    this.name = _options.name;
-    this.loggingLevel = _options.loggingLevel;
+  constructor(options: LoggerOptions = new OptionsBuilder().build()) {
+    this.name = options.name;
+    this.loggingLevel = options.loggingLevel;
     this.listOfFormatterAndTransports.push(
-      ..._options.listOfFormatterAndTransports,
+      ...options.listOfFormatterAndTransports,
     );
   }
 

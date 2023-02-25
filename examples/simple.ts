@@ -1,4 +1,7 @@
-import { log } from '../mod.ts';
+import luminous from '../mod.ts';
+import { Logger } from '../src/Logger.ts';
+
+const log = new Logger();
 
 log.trc`This is TRACE log message`;
 log.dbg`This is DEBUG log message`;
