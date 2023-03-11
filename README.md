@@ -1,4 +1,5 @@
 # Luminous
+[![deno.land/x/luminous](https://shield.deno.dev/x/luminous)](https://deno.land/x/luminous)
 
 Luminous is a extremely configurable logger for Deno written in TypeScript. It provides a simple and flexible way to log events and messages in Deno applications with various levels of severity. With Luminous, developers can configure the logger to meet their specific needs and customize the logging format to suit their preferences.
 
