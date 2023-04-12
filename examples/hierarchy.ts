@@ -9,18 +9,6 @@ const mainLoggerOptions = new luminous.OptionsBuilder()
     }),
     new luminous.transports.TerminalTransport(),
   )
-  .addTransport(
-    new luminous.formatters.TextFormatter({
-      showMetadata: false,
-      colorize: false,
-      showTimestamp: false,
-      timestampPattern: 'yyyy-MM-dd HH:mm:ss',
-    }),
-    new luminous.transports.LogfareTransport({
-      source: '34da2611-e7a3-44ea-8a72-4e07e5a8aa4d',
-      xApiKey: '0miJD2lHQu25',
-    }),
-  )
   .build();
 
 const moduleALoggerOptions = new luminous.OptionsBuilder()
