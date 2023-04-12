@@ -13,6 +13,7 @@ export type FormatterAndTransports = {
 };
 
 export interface LoggerOptions {
+  parents: Array<string>;
   name: string;
   loggingLevel: Level;
   excludedLoggingLevels: Level[];
@@ -28,13 +29,20 @@ export interface LoggerOptions {
  */
 // deno-lint-ignore ban-types
 export class Logger<MT = {}> {
+  parents: Array<string> = [];
   name = 'default';
+  postfix = '';
   loggingLevel = Level.TRACE;
   uuid = 'ABCDEF';
   listOfFormatterAndTransports: FormatterAndTransports[] = [];
 
-  constructor(options: LoggerOptions = new OptionsBuilder().build()) {
+  constructor(
+    options: LoggerOptions = new OptionsBuilder().build(),
+    postfix: string = '',
+  ) {
+    this.parents = options.parents;
     this.name = options.name;
+    this.postfix = postfix;
     this.loggingLevel = options.loggingLevel;
     this.listOfFormatterAndTransports.push(
       ...options.listOfFormatterAndTransports,
@@ -51,15 +59,19 @@ export class Logger<MT = {}> {
     const msgString = typeof msg === 'object' ? msg.join(' ') : msg;
 
     this.listOfFormatterAndTransports.forEach((combination) => {
-      const logString = combination.formatter.format({
+      const data = {
+        parents: this.parents,
         name: this.name,
+        postfix: this.postfix,
         level,
         msg: msgString,
         metadata,
-      });
+      };
+
+      const logString = combination.formatter.format(data);
 
       combination.transports.forEach((transport) => {
-        transport.send(level, logString);
+        transport.send(level, logString, data);
       });
     });
 
@@ -125,8 +137,15 @@ export class Logger<MT = {}> {
    * @param {string} msg message
    * @returns {string} message
    */
-  err(msg: MessageType, metadata: MT = {} as MT) {
-    return this.def(Level.ERROR, msg, metadata);
+  err(msg: MessageType | Error, metadata: MT = {} as MT) {
+    if (msg instanceof Error) {
+      return this.def(Level.ERROR, msg.message, {
+        stack: msg.stack,
+        ...metadata,
+      });
+    } else {
+      return this.def(Level.ERROR, msg, metadata);
+    }
   }
 
   /**

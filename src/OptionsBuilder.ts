@@ -3,7 +3,7 @@ import { FormatterAndTransports, LoggerOptions } from './Logger.ts';
 import { AbstractTransport } from './Transport.ts';
 import { Level } from './Level.ts';
 import { TextFormatter } from './formatters/TextFormatter.ts';
-import { TermianlTransport } from './transports/Terminal.ts';
+import { TerminalTransport } from './transports/Terminal.ts';
 
 /**
  * OptionsBuilder
@@ -68,7 +68,7 @@ export class OptionsBuilder {
    * @param parent
    * @returns
    */
-  setDefaultOptions(parent: LoggerOptions) {
+  inherit(parent: LoggerOptions) {
     this.parent = parent;
     return this;
   }
@@ -117,7 +117,15 @@ export class OptionsBuilder {
       ...this.parent?.listOfFormatterAndTransports || [],
     ];
 
+    const parents: Array<string> = [];
+
+    if (this.parent) {
+      parents.push(...this.parent.parents);
+      parents.push(this.parent.name);
+    }
+
     return {
+      parents: parents,
       name: this.name || this.parent?.name || 'defualt',
       loggingLevel: this.parent?.loggingLevel || this.loggingLevel ||
         Level.TRACE,
@@ -133,7 +141,7 @@ export class OptionsBuilder {
           : [
             {
               formatter: new TextFormatter(),
-              transports: [new TermianlTransport()],
+              transports: [new TerminalTransport()],
             },
           ],
     };

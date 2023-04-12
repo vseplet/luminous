@@ -1,1 +1,2 @@
-export { TermianlTransport } from './Terminal.ts';
+export { TerminalTransport } from './Terminal.ts';
+export { LogfareTransport } from './Logfare.ts';

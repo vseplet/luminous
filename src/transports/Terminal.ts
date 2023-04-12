@@ -1,4 +1,3 @@
-import { TextFormatter } from '../formatters/TextFormatter.ts';
 import { AbstractTransport } from '../Transport.ts';
 import { Level } from '../Level.ts';
 
@@ -12,14 +11,10 @@ interface TerminalTransportOptions {
  * @extends Transport
  * @property {boolean} showMetadata
  */
-export class TermianlTransport
+export class TerminalTransport
   extends AbstractTransport<TerminalTransportOptions> {
   constructor(options: TerminalTransportOptions = {}) {
-    super(options, {
-      formatter: new TextFormatter({
-        showMetadata: false,
-      }),
-    });
+    super(options, {});
   }
 
   send(level: Level, msg: string): void {

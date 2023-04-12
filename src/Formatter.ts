@@ -5,7 +5,9 @@ import { Level } from './Level.ts';
  * The formatter can use this data to format the log message.
  */
 export interface IDataForFormatting {
+  parents: Array<string>;
   name: string;
+  postfix: string;
   level: Level;
   uuid?: string;
   msg: string;

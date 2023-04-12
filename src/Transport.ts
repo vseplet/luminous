@@ -1,3 +1,4 @@
+import { IDataForFormatting } from './Formatter.ts';
 import { Level } from './Level.ts';
 
 export abstract class AbstractTransport<
@@ -20,5 +21,9 @@ export abstract class AbstractTransport<
     }
   }
 
-  abstract send(level: Level, log: string): void;
+  abstract send(
+    level: Level,
+    log: string,
+    data: IDataForFormatting,
+  ): void;
 }

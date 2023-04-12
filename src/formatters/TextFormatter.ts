@@ -16,6 +16,7 @@ import { LevelShortName } from '../Level.ts';
 interface ITextFormatterOptions {
   showMetadata?: boolean;
   colorize?: boolean;
+  showTimestamp?: boolean;
   timestampPattern?: string;
 }
 
@@ -31,6 +32,7 @@ export class TextFormatter
     super(options, {
       showMetadata: false,
       colorize: true,
+      showTimestamp: true,
       timestampPattern: 'HH:mm:ss',
     });
   }
@@ -46,11 +48,12 @@ export class TextFormatter
       ? JSON.stringify(data.metadata, null, 2)
       : '';
 
-    const logString = `${time} [${
-      LevelShortName[data.level]
-    }] ${data.name}${
-      data.uuid ? ` <${data.uuid}>` : ''
-    }: ${data.msg} ${meta}\n`;
+    const logString = (this.options.showTimestamp ? `${time} ` : '') +
+      ` [${LevelShortName[data.level]}] ${
+        [...data.parents, data.name].join('.')
+      } ${data.postfix}${
+        data.uuid ? ` <${data.uuid}>` : ''
+      }: ${data.msg} ${meta}\n`;
 
     return this.options.colorize
       ? colorStringByLevel(data.level, logString)
