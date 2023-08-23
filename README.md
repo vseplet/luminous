@@ -13,7 +13,7 @@ format to suit their preferences.
 ### Usage
 
 ```ts
-import luminous from 'https://deno.land/x/luminous@v0.1.3/mod.ts';
+import luminous from 'https://deno.land/x/luminous@v0.1.5/mod.ts';
 
 const log = new luminous.Logger();
 log.trc`Hello, World!`;
@@ -54,7 +54,7 @@ complex problems.<br><br> 0 TRACE:<br>
 
 ```ts
 log.trc`This is TRACE log message`;
-// 01:58:35 [TRC] defualt: This is TRACE log message
+// 01:58:35 [TRC] default: This is TRACE log message
 ```
 
 The TRACE level is the lowest level of severity in Luminous. This level is used
@@ -66,7 +66,7 @@ useful for debugging complex issues and identifying the root cause of a problem.
 
 ```ts
 log.dbg`This is DEBUG log message`;
-// 01:58:35 [DBG] defualt: This is DEBUG log message
+// 01:58:35 [DBG] default: This is DEBUG log message
 ```
 
 The DEBUG level is used to log debugging information that is useful for
@@ -78,7 +78,7 @@ help developers identify and fix bugs.
 
 ```ts
 log.vrb`This is VERBOSE log message`;
-// 01:58:35 [VRB] defualt: This is VERBOSE log message
+// 01:58:35 [VRB] default: This is VERBOSE log message
 ```
 
 The VERBOSE level is used to log detailed information that is not critical to
@@ -90,7 +90,7 @@ other detailed events.
 
 ```ts
 log.inf`This is INFO log message`;
-// 01:58:35 [INF] defualt: This is INFO log message
+// 01:58:35 [INF] default: This is INFO log message
 ```
 
 The INFO level is used to log information about the application's operation.
@@ -102,7 +102,7 @@ be of interest to developers or system administrators.
 
 ```ts
 log.usr`This is USER log message`;
-// 01:58:35 [USR] defualt: This is USER log message
+// 01:58:35 [USR] default: This is USER log message
 ```
 
 The USER level is used to log events that are relevant to end-users, such as
@@ -113,7 +113,7 @@ useful for tracking user behavior and identifying usability issues.
 
 ```ts
 log.wrn`This is WARN log message`;
-// 01:58:35 [WRN] defualt: This is WARN log message
+// 01:58:35 [WRN] default: This is WARN log message
 ```
 
 The WARN level is used to log warnings about potential issues that may affect
@@ -125,7 +125,7 @@ behavior.
 
 ```ts
 log.err`This is ERROR log message`;
-// 01:58:35 [ERR] defualt: This is ERROR log message
+// 01:58:35 [ERR] default: This is ERROR log message
 ```
 
 The ERROR level is used to log errors that occur during application execution
@@ -137,7 +137,7 @@ application to stop.
 
 ```ts
 log.ftl`This is FATAL log message`;
-// 01:58:35 [FTL] defualt: This is FATAL log message
+// 01:58:35 [FTL] default: This is FATAL log message
 ```
 
 The FATAL level is used to log critical errors that require immediate attention
@@ -170,7 +170,7 @@ The [AbstractTransport](./src/Transport.ts) is the base class for all transports
 in Luminous. A transport is responsible for sending formatted log messages to
 their final destination, which could be the console, a file, a database, or any
 other endpoint. At the moment, Luminous has a
-[TermianlTransport](./src/transports/Terminal.ts). For example:
+[TerminalTransport](./src/transports/Terminal.ts). For example:
 
 ```ts
 // Create a new instance of TerminalTransport to send logs to the terminal.
@@ -179,7 +179,7 @@ const transport = new luminous.transports.TermianlTransport(),
 // Create a new OptionsBuilder instance to configure the logger options.
 const loggerOptions = new luminous.OptionsBuilder()
   .setName('Main') // Set the name of the logger to 'Main'.
-  .setTransport(
+  .addTransport(
     new luminous.formatters.TextFormatter(),
     transport,
   ) // Add the TextFormatter and TerminalTransport to the logger.
@@ -214,7 +214,7 @@ const textFormatter = new luminous.formatters.TextFormatter({
 // Create a new OptionsBuilder instance to configure the logger options.
 const loggerOptions = new luminous.OptionsBuilder()
   .setName('Main') // Set the name of the logger to 'Main'.
-  .setTransport(
+  .addTransport(
     textFormatter,
     new luminous.transports.TerminalTransport(),
   ) // Add the TextFormatter and TerminalTransport to the logger.

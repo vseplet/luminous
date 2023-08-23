@@ -126,7 +126,7 @@ export class OptionsBuilder {
 
     return {
       parents: parents,
-      name: this.name || this.parent?.name || 'defualt',
+      name: this.name || this.parent?.name || 'default',
       loggingLevel: this.parent?.loggingLevel || this.loggingLevel ||
         Level.TRACE,
       excludedLoggingLevels: Array.from(

@@ -40,5 +40,5 @@ namespace ModuleB {
   log.wrn`this is warn log`;
   log.err`this is error log`;
 
-  log.err(new Error('hehe'));
+  log.err(new Error('Ups...'));
 }
