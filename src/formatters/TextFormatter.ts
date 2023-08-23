@@ -33,7 +33,7 @@ export class TextFormatter
       showMetadata: false,
       colorize: true,
       showTimestamp: true,
-      timestampPattern: 'HH:mm:ss',
+      timestampPattern: 'HH:mm:ss.SSS',
     });
   }
 

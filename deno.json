@@ -1,12 +1,13 @@
 {
+  "lock": false,
   "test": {
     "files": {
       "include": ["tests/"]
     }
   },
   "tasks": {
-    "exmaple:hierarchy": "deno run --allow-all ./examples/hierarchy.ts",
-    "exmaple:simple": "deno run --allow-all ./examples/simple.ts"
+    "example:hierarchy": "deno run --allow-all ./examples/hierarchy.ts",
+    "example:simple": "deno run --allow-all ./examples/simple.ts"
   },
 
   "lint": {

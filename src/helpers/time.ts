@@ -27,6 +27,7 @@ export function formatDate(date: Date, pattern: string): string {
   const hours = date.getHours();
   const minutes = date.getMinutes();
   const seconds = date.getSeconds();
+  const milliseconds = date.getMilliseconds(); // Получаем миллисекунды
 
   return pattern
     .replace('dd', day < 10 ? `0${day}` : `${day}`)
@@ -34,9 +35,9 @@ export function formatDate(date: Date, pattern: string): string {
     .replace('yyyy', `${year}`)
     .replace('HH', hours < 10 ? `0${hours}` : `${hours}`)
     .replace('mm', minutes < 10 ? `0${minutes}` : `${minutes}`)
-    .replace('ss', seconds < 10 ? `0${seconds}` : `${seconds}`);
+    .replace('ss', seconds < 10 ? `0${seconds}` : `${seconds}`)
+    .replace('SSS', `${milliseconds}`.padStart(3, '0')); // Вставляем миллисекунды
 }
-
 /**
  * Timezone constants
  */

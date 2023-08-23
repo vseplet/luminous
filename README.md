@@ -216,7 +216,7 @@ const loggerOptions = new luminous.OptionsBuilder()
   .setName('Main') // Set the name of the logger to 'Main'.
   .setTransport(
     textFormatter,
-    new luminous.transports.TermianlTransport(),
+    new luminous.transports.TerminalTransport(),
   ) // Add the TextFormatter and TerminalTransport to the logger.
   .build(); // Build the final logger options object.
 
