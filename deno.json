@@ -7,7 +7,8 @@
   },
   "tasks": {
     "example:hierarchy": "deno run --allow-all ./examples/hierarchy.ts",
-    "example:simple": "deno run --allow-all ./examples/simple.ts"
+    "example:simple": "deno run --allow-all ./examples/simple.ts",
+    "build-npm": "deno run --allow-all ./scripts/build-npm.ts"
   },
 
   "lint": {
