@@ -20,6 +20,7 @@ function incrementSemver(
   type: 'major' | 'minor' | 'patch',
 ): string {
   const [majorStr, minorStr, patchStr] = version.split('.');
+  console.log([majorStr, minorStr, patchStr]);
   let major = parseInt(majorStr);
   let minor = parseInt(minorStr);
   let patch = parseInt(patchStr);
@@ -66,11 +67,14 @@ const workflow = core.workflow(UpdateVersionContext)
           const versions = match[1]
             .split(',');
 
-          ctx.version = incrementSemver(versions[0], 'minor');
+          ctx.version = incrementSemver(
+            versions[0].replace(/^"|"$/g, ''),
+            'minor',
+          );
 
           newVersionsTS = `export default [ ${
-            [ctx.version, ...versions].map((version) =>
-              `"${version}"`
+            [`"${ctx.version}"`, ...versions].map((version) =>
+              `${version}`
             )
               .join(', ')
           } ];\n`;
