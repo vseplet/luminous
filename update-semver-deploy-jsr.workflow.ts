@@ -64,14 +64,14 @@ const workflow = core.workflow(UpdateVersionContext)
 
         if (match && match[1]) {
           const versions = match[1]
-            .split(',')
-            .map((version) => version.trim().replace(/"/g, ''))
-            .filter((version) => version !== '');
+            .split(',');
 
           ctx.version = incrementSemver(versions[0], 'minor');
 
           newVersionsTS = `export default [ ${
-            [ctx.version, ...versions].map((version) => version)
+            [ctx.version, ...versions].map((version) =>
+              `"${version}"`
+            )
               .join(', ')
           } ];\n`;
         } else {
