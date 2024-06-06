@@ -17,7 +17,7 @@ format to suit their preferences.
 ### Usage
 
 ```ts
-import luminous from 'https://deno.land/x/luminous@3/mod.ts';
+import luminous from 'https://deno.land/x/luminous@4/mod.ts';
 
 const log = new luminous.Logger();
 log.trc`Hello, World!`;

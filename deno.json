@@ -1,6 +1,6 @@
 {
   "name": "@vseplet/luminous",
-  "version": "3",
+  "version": "4",
   "exports": "./mod.ts",
   "lock": false,
   "test": {
