@@ -41,7 +41,7 @@ const workflow = core.workflow(UpdateVersionContext)
             .filter((version) => version !== '');
 
           const currentVersionNumber = parseInt(
-            versions[0].substring(1),
+            versions[0],
             10,
           );
           ctx.data.version = `${currentVersionNumber + 1}`;
