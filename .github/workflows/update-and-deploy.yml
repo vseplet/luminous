@@ -7,7 +7,7 @@ on:
   pull_request:
     branches: main
     paths:
-      - source/**
+      - source/** 
 
 jobs:
   release:
@@ -33,4 +33,4 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          deno run --allow-all --unstable-broadcast-channel --unstable-kv ./update-semver-deploy-jsr.workflow.ts
+          deno task update-semver-deploy-jsr
