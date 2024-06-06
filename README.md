@@ -1,6 +1,5 @@
 # luminous
-
-✅ [DENO RU COMMUNITY](https://t.me/+3rL7e9JzPLRhZTli)
+[![JSR](https://jsr.io/badges/@vseplet/luminous)](https://jsr.io/@luminous/luminous)
 
 ## 👋 👋 ATTENTION!
 
