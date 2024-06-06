@@ -45,7 +45,7 @@ function incrementSemver(
 
 class UpdateVersionContext extends ContextPot<{}> {
   data = {
-    updateType: 'minor',
+    updateType: 'patch',
     version: '0.0.0',
   };
 }
