@@ -74,7 +74,7 @@ const workflow = core.workflow(UpdateVersionContext)
           );
 
           newVersionsTS = `export default [ ${
-            [`"${ctx.version}"`, ...versions].map((version) =>
+            [ctx.version, ...versions].map((version) =>
               `"${version}"`
             ).join(', ')
           } ];\n`;
