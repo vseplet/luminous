@@ -1,2 +1,3 @@
-export * as colors from 'https://deno.land/std@0.177.0/fmt/colors.ts';
-export { printf } from 'https://deno.land/std@0.177.0/fmt/printf.ts';
+import * as colors from 'jsr:@std/fmt@0.224.0/colors';
+export { colors };
+export { printf } from 'jsr:@std/fmt@0.224.0/printf';

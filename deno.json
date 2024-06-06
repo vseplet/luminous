@@ -1,4 +1,8 @@
 {
+  "name": "@vseplet/luminous",
+  "version": "0.1.0",
+  "exports": "./mod.ts",
+
   "lock": false,
   "test": {
     "files": {
@@ -18,7 +22,7 @@
     "rules": {
       "tags": ["recommended"],
       "include": ["ban-untagged-todo"],
-      "exclude": []
+      "exclude": ["no-slow-types"]
     }
   },
 
@@ -33,10 +37,11 @@
 
     "files": {
       "exclude": [
-        ".vacode",
+        ".vscode",
         ".idea",
         ".fleet",
-        ".git"
+        ".git",
+        "./versions.ts"
       ]
     }
   },

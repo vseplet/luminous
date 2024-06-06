@@ -1,11 +1,5 @@
 # luminous
 
-[![deno.land/x/luminous](https://shield.deno.dev/x/luminous)](https://deno.land/x/luminous)
-[![popularity](https://deno.land/badge/luminous/popularity)](https://deno.land/x/luminous)
-![npm version](https://img.shields.io/npm/v/@sevapp/luminous)
-![npm downloads](https://img.shields.io/npm/dt/@sevapp/luminous)
-![npm license](https://img.shields.io/npm/l/@sevapp/luminous)
-
 ✅ [DENO RU COMMUNITY](https://t.me/+3rL7e9JzPLRhZTli)
 
 ## 👋 👋 ATTENTION!
@@ -247,12 +241,11 @@ logger.inf(`Hello, World!`, { meta0: '0', meta1: '1' });
 ## DONATE
 
 🫶 You can support me and my work in the following ways: <br>
-**TON**: ```EQBiaSPuG33CuKXHClwsVvA-SazmLmtiTfXV7dQnqJdIlGgI```<br>
-**USDT (TRC 20)** ```(TRC20): TGPWzEiQjMYHjZx4fb3SDSumiSXdmjE4ZR```<br>
-**BTC**: ```bc1qq37svf4h8sg5qjsv99n9jf3r45dtd5yf5mdpc5```<br>
-**ETH**: ```0xAdc58F26cA3dCc01256cF1BeF6221f4bcaa3c660```<br>
-**SOL**: ```BckFFoxZw36ABbNS8Fc66LCdzJhu4ZwQANRdq49XmqKw```<br>
-
+**TON**: `EQBiaSPuG33CuKXHClwsVvA-SazmLmtiTfXV7dQnqJdIlGgI`<br>
+**USDT (TRC 20)** `(TRC20): TGPWzEiQjMYHjZx4fb3SDSumiSXdmjE4ZR`<br>
+**BTC**: `bc1qq37svf4h8sg5qjsv99n9jf3r45dtd5yf5mdpc5`<br>
+**ETH**: `0xAdc58F26cA3dCc01256cF1BeF6221f4bcaa3c660`<br>
+**SOL**: `BckFFoxZw36ABbNS8Fc66LCdzJhu4ZwQANRdq49XmqKw`<br>
 
 ## LICENCE
 
