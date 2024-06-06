@@ -14,9 +14,36 @@ const versionsExportPattern = /export default \[\s*([\s\S]*?)\s*\];/;
 const mdUrlPattern = /https:\/\/deno\.land\/x\/luminous@[^/]+\//;
 const mdUrlReplacePattern = /@[^/]+\//;
 
+function incrementSemver(
+  version: string,
+  type: 'major' | 'minor' | 'patch',
+): string {
+  const [majorStr, minorStr, patchStr] = version.split('.');
+  let major = parseInt(majorStr);
+  let minor = parseInt(minorStr);
+  let patch = parseInt(patchStr);
+
+  switch (type) {
+    case 'major':
+      major++;
+      minor = 0;
+      patch = 0;
+      break;
+    case 'minor':
+      minor++;
+      patch = 0;
+      break;
+    case 'patch':
+      patch++;
+      break;
+  }
+
+  return `${major}.${minor}.${patch}`;
+}
+
 class UpdateVersionContext extends ContextPot<{}> {
   data = {
-    version: '1',
+    version: '0.0.0',
   };
 }
 
@@ -40,11 +67,7 @@ const workflow = core.workflow(UpdateVersionContext)
             .map((version) => version.trim().replace(/"/g, ''))
             .filter((version) => version !== '');
 
-          const currentVersionNumber = parseInt(
-            versions[0],
-            10,
-          );
-          ctx.data.version = `${currentVersionNumber + 1}`;
+          ctx.data.version = incrementSemver(versions[0], 'minor');
 
           newVersionsTS = `export default [ ${
             [ctx.data.version, ...versions].map((version) =>
