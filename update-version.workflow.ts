@@ -153,4 +153,5 @@ core.api.settings.ALLOWED_LOGGING_SOURCE_TYPES = [
 ];
 
 core.api.register(workflow);
+console.log('before start!');
 await core.api.start();
