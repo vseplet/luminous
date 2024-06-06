@@ -1,1 +1,1 @@
-export default [ "v2", "v1" ];
+export default [ "2", "1" ];

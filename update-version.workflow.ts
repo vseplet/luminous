@@ -16,7 +16,7 @@ const mdUrlReplacePattern = /@[^/]+\//;
 
 class UpdateVersionContext extends ContextPot<{}> {
   data = {
-    version: 'v1',
+    version: '1',
   };
 }
 
@@ -44,7 +44,7 @@ const workflow = core.workflow(UpdateVersionContext)
             versions[0].substring(1),
             10,
           );
-          ctx.data.version = `v${currentVersionNumber + 1}`;
+          ctx.data.version = `${currentVersionNumber + 1}`;
 
           newVersionsTS = `export default [ ${
             [ctx.data.version, ...versions].map((version) =>
