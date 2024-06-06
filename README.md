@@ -1,5 +1,5 @@
 # luminous
-[![JSR](https://jsr.io/badges/@vseplet/luminous)](https://jsr.io/@luminous/luminous)
+[![JSR](https://jsr.io/badges/@vseplet/luminous)](https://jsr.io/@vseplet/luminous)
 
 ## 👋 👋 ATTENTION!
 
