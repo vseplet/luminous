@@ -19,7 +19,7 @@ format to suit their preferences.
 ### Usage
 
 ```ts
-import luminous from 'jsr:@vseplet/luminous@0.2.0';
+import luminous from 'jsr:@NaN.3.0/;
 
 const log = new luminous.Logger();
 log.trc`Hello, World!`;
