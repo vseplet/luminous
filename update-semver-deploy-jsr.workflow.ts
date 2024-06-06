@@ -12,8 +12,8 @@ const denoJsonFilePath = './deno.json';
 const versionsFilePath = './source/versions.ts';
 const versionsExportPattern = /export default \[\s*([\s\S]*?)\s*\];/;
 const mdUrlPattern =
-  /import\s+[\w\s,{}*]+from\s+'jsr:@vseplet\/luminous@[^']+';/;
-const mdUrlReplacePattern = /@(v\d+\.\d+\.\d+)'/;
+  /import\s+[^;]+from\s+'jsr:@vseplet\/luminous@[^']+';/g;
+const mdUrlReplacePattern = /(@vseplet\/luminous@)[^']+/;
 
 function incrementSemver(
   version: string,
@@ -75,7 +75,7 @@ const workflow = core.workflow(UpdateVersionContext)
 
           newVersionsTS = `export default [ ${
             [`"${ctx.version}"`, ...versions].map((version) =>
-              version
+              `${version}`
             ).join(', ')
           } ];\n`;
         } else {
@@ -126,7 +126,7 @@ const workflow = core.workflow(UpdateVersionContext)
               (match) => {
                 return match.replace(
                   mdUrlReplacePattern,
-                  `@${ctx.version}'`,
+                  `$1${ctx.version}`,
                 );
               },
             );
