@@ -1,1 +1,1 @@
-export default [ "NaN", "2", "1" ];
+export default [ "NaN", "NaN", "2", "1" ];
