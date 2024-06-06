@@ -1,7 +1,7 @@
 {
   "name": "@vseplet/luminous",
   "version": "0.2.0",
-  "exports": "./mod.ts",
+  "exports": "./source/mod.ts",
   "lock": false,
   "test": {
     "files": {
@@ -47,7 +47,7 @@
         ".idea",
         ".fleet",
         ".git",
-        "./versions.ts"
+        "./source/versions.ts"
       ]
     }
   },

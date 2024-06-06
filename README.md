@@ -1,4 +1,5 @@
 # luminous
+
 [![JSR](https://jsr.io/badges/@vseplet/luminous)](https://jsr.io/@vseplet/luminous)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/vseplet/luminous)](https://github.com/vseplet/luminous/pulse)
 [![GitHub last commit](https://img.shields.io/github/last-commit/vseplet/luminous)](https://github.com/vseplet/luminous/commits/main)
@@ -18,7 +19,7 @@ format to suit their preferences.
 ### Usage
 
 ```ts
-import luminous from 'https://deno.land/x/luminous@0.2.0/mod.ts';
+import luminous from 'jsr:@vseplet/luminous@0.2.0';
 
 const log = new luminous.Logger();
 log.trc`Hello, World!`;

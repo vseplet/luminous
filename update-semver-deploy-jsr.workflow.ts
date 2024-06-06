@@ -9,10 +9,11 @@ import { SourceType } from 'https://deno.land/x/shibui@v18/core/types.ts';
 import { sh } from 'https://deno.land/x/shelly@v0.1.1/mod.ts';
 
 const denoJsonFilePath = './deno.json';
-const versionsFilePath = './versions.ts';
+const versionsFilePath = './source/versions.ts';
 const versionsExportPattern = /export default \[\s*([\s\S]*?)\s*\];/;
-const mdUrlPattern = /https:\/\/deno\.land\/x\/luminous@[^/]+\//;
-const mdUrlReplacePattern = /@[^/]+\//;
+const mdUrlPattern =
+  /import\s+luminous\s+from\s+'jsr:@vseplet\/luminous@[^']+';/;
+const mdUrlReplacePattern = /@[^']+'/;
 
 function incrementSemver(
   version: string,
@@ -54,7 +55,7 @@ const workflow = core.workflow(UpdateVersionContext)
     const t1 = task1()
       .name('Update versions.ts')
       .do(async ({ pots, log, next }) => {
-        const [ctx] = pots;
+        const ctx = pots[0].data;
         const oldVersionsTS = await Deno.readTextFile(
           versionsFilePath,
         );
@@ -67,48 +68,47 @@ const workflow = core.workflow(UpdateVersionContext)
             .map((version) => version.trim().replace(/"/g, ''))
             .filter((version) => version !== '');
 
-          ctx.data.version = incrementSemver(versions[0], 'minor');
+          ctx.version = incrementSemver(versions[0], 'minor');
 
           newVersionsTS = `export default [ ${
-            [ctx.data.version, ...versions].map((version) =>
+            [ctx.version, ...versions].map((version) =>
               `"${version}"`
             )
               .join(', ')
           } ];\n`;
         } else {
-          newVersionsTS = `export default ["${ctx.data.version}"];`;
+          newVersionsTS = `export default ["${ctx.version}"];`;
         }
 
         await Deno.writeTextFile(versionsFilePath, newVersionsTS);
 
-        log.inf(ctx.data.version);
+        log.inf(ctx.version);
         return next(t2, {
-          version: ctx.data.version,
+          version: ctx.version,
         });
       });
 
     const t2 = task1()
       .name('Update deno.json')
       .do(async ({ pots, log, next }) => {
-        const [ctx] = pots;
-
+        const ctx = pots[0].data;
         const denoJsonRaw = await Deno.readTextFile(denoJsonFilePath);
         const json = JSON.parse(denoJsonRaw);
 
         if (json.version) {
-          json.version = ctx.data.version;
+          json.version = ctx.version;
           const newContent = JSON.stringify(json, null, 2);
           await Deno.writeTextFile(denoJsonFilePath, newContent);
         }
 
-        log.inf(ctx.data.version);
+        log.inf(ctx.version);
         return next(t3);
       });
 
     const t3 = task1()
       .name('Update imports in .md files')
       .do(async ({ pots, log, next }) => {
-        const [ctx] = pots;
+        const ctx = pots[0].data;
 
         for await (
           const entry of walk('.', {
@@ -123,7 +123,7 @@ const workflow = core.workflow(UpdateVersionContext)
               (match) => {
                 return match.replace(
                   mdUrlReplacePattern,
-                  `@${ctx.data.version}/`,
+                  `@${ctx.version}/`,
                 );
               },
             );
@@ -135,14 +135,14 @@ const workflow = core.workflow(UpdateVersionContext)
           }
         }
 
-        log.inf(ctx.data.version);
+        log.inf(ctx.version);
         return next(t4);
       });
 
     const t4 = task1()
       .name('Commit and push changes')
       .do(async ({ pots, log, next }) => {
-        const [ctx] = pots;
+        const ctx = pots[0].data;
         console.log((await sh('git add -A')).stderr);
         console.log(
           (await sh(
@@ -151,20 +151,20 @@ const workflow = core.workflow(UpdateVersionContext)
         );
         console.log((await sh('git push origin main')).stderr);
 
-        log.inf(ctx.data.version);
+        log.inf(ctx.version);
         return next(t5);
       });
 
     const t5 = task1()
       .name('Create and push tag')
       .do(async ({ pots, log, next }) => {
-        const [ctx] = pots;
-        console.log((await sh(`git tag ${ctx.data.version}`)).stderr);
+        const ctx = pots[0].data;
+        console.log((await sh(`git tag ${ctx.version}`)).stderr);
         console.log(
-          (await sh(`git push origin ${ctx.data.version}`)).stderr,
+          (await sh(`git push origin ${ctx.version}`)).stderr,
         );
 
-        log.inf(ctx.data.version);
+        log.inf(ctx.version);
         return next(t6);
       });
 
@@ -175,7 +175,6 @@ const workflow = core.workflow(UpdateVersionContext)
           (await sh(`deno publish --allow-slow-types`)).stderr,
         );
         log.inf('test');
-
         Deno.exit(0);
       });
 

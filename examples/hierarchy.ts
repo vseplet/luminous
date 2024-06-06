@@ -1,4 +1,4 @@
-import luminous from '../mod.ts';
+import luminous from '../source/mod.ts';
 
 const mainLoggerOptions = new luminous.OptionsBuilder()
   .setName('Main')

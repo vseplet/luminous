@@ -1,4 +1,4 @@
-name: Update Version
+name: Update and Deploy
 on:
   push:
     branches: main
@@ -27,13 +27,13 @@ jobs:
         with:
           deno-version: v1.x
 
-      - name: Update version and publish
+      - name: Update version and deploy
         env:
           GITHUB_TOKEN: ${{ secrets.VSEPLET_GITHUB_TOKEN }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          deno run --allow-all --unstable-broadcast-channel --unstable-kv ./update-version.workflow.ts
+          deno run --allow-all --unstable-broadcast-channel --unstable-kv ./update-semver-deploy-jsr.workflow.ts
 
       # - name: Publish
       #   run: npx jsr publish --allow-slow-types
