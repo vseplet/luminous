@@ -134,7 +134,7 @@ const workflow = core.workflow(UpdateVersionContext)
 
     const t5 = task1()
       .name('Create and push tag')
-      .do(async ({ pots, log }) => {
+      .do(async ({ pots, log, next }) => {
         const [ctx] = pots;
         console.log((await sh(`git tag ${ctx.data.version}`)).stderr);
         console.log(
@@ -142,6 +142,17 @@ const workflow = core.workflow(UpdateVersionContext)
         );
 
         log.inf(ctx.data.version);
+        return next(t6);
+      });
+
+    const t6 = task1()
+      .name('Publish to JSR')
+      .do(async ({ log }) => {
+        console.log(
+          (await sh(`deno publish --allow-slow-types`)).stderr,
+        );
+        log.inf('test');
+
         Deno.exit(0);
       });
 
