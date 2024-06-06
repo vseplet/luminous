@@ -17,7 +17,7 @@ const mdUrlReplacePattern = /(@vseplet\/luminous@)[^']+/;
 
 function incrementSemver(
   version: string,
-  type: 'major' | 'minor' | 'patch',
+  type: 'major' | 'minor' | 'patch' | string,
 ): string {
   const [majorStr, minorStr, patchStr] = version.split('.');
   console.log([majorStr, minorStr, patchStr]);
@@ -45,6 +45,7 @@ function incrementSemver(
 
 class UpdateVersionContext extends ContextPot<{}> {
   data = {
+    updateType: 'minor',
     version: '0.0.0',
   };
 }
@@ -53,6 +54,28 @@ const workflow = core.workflow(UpdateVersionContext)
   .name('Update Version')
   .on(CoreStartPot)
   .sq(({ task1 }) => {
+    const t0 = task1()
+      .name('Check Update Type')
+      .do(async ({ pots, log, next }) => {
+        const ctx = pots[0].data;
+
+        const lastCommitText =
+          (await sh('git log -1 --pretty=%B')).stdout;
+
+        if (lastCommitText.indexOf('[major]')) {
+          ctx.updateType = 'major';
+        } else if (lastCommitText.indexOf('[major]')) {
+          ctx.updateType = 'minor';
+        } else if (lastCommitText.indexOf('[patch]')) {
+          ctx.updateType = 'patch';
+        }
+
+        log.inf(ctx.updateType);
+        return next(t1, {
+          updateType: ctx.updateType,
+        });
+      });
+
     const t1 = task1()
       .name('Update versions.ts')
       .do(async ({ pots, log, next }) => {
@@ -70,7 +93,7 @@ const workflow = core.workflow(UpdateVersionContext)
 
           ctx.version = incrementSemver(
             versions[0],
-            'minor',
+            ctx.updateType,
           );
 
           newVersionsTS = `export default [ ${
@@ -181,7 +204,7 @@ const workflow = core.workflow(UpdateVersionContext)
         Deno.exit(0);
       });
 
-    return t1;
+    return t0;
   });
 
 core.api.settings.ALLOWED_LOGGING_SOURCE_TYPES = [
