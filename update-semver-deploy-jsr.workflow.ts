@@ -62,11 +62,11 @@ const workflow = core.workflow(UpdateVersionContext)
         const lastCommitText =
           (await sh('git log -1 --pretty=%B')).stdout;
 
-        if (lastCommitText.indexOf('[major]')) {
+        if (lastCommitText.indexOf('[major]') != -1) {
           ctx.updateType = 'major';
-        } else if (lastCommitText.indexOf('[major]')) {
+        } else if (lastCommitText.indexOf('[minor]') != -1) {
           ctx.updateType = 'minor';
-        } else if (lastCommitText.indexOf('[patch]')) {
+        } else if (lastCommitText.indexOf('[patch]') != -1) {
           ctx.updateType = 'patch';
         }
 
