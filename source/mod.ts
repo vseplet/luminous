@@ -15,4 +15,5 @@ const luminous = {
 };
 
 export const log = new Logger();
+
 export default luminous;
