@@ -29,7 +29,7 @@ jobs:
 
       - name: Update version
         env:
-          GITHUB_TOKEN: ${{ secrets.SHIBUI_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.VSEPLET_GITHUB_TOKEN }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"

@@ -1,3 +1,6 @@
+/**
+ * Level - The level of the log message
+ */
 export enum Level {
   TRACE,
   DEBUG,
