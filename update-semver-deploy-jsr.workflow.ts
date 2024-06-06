@@ -125,7 +125,7 @@ const workflow = core.workflow(UpdateVersionContext)
               (match) => {
                 return match.replace(
                   mdUrlReplacePattern,
-                  `@${ctx.version}/`,
+                  `@${ctx.version}`,
                 );
               },
             );
