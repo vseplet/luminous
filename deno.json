@@ -13,8 +13,7 @@
   "tasks": {
     "example:hierarchy": "deno run --allow-all ./examples/hierarchy.ts",
     "example:simple": "deno run --allow-all ./examples/simple.ts",
-    "build-npm": "deno run --allow-all ./scripts/build-npm.ts",
-    "update-semver-deploy-jsr": "deno run --allow-all --unstable-broadcast-channel --unstable-kv ./update-semver-deploy-jsr.workflow.ts"
+    "update-and-deploy": "deno run --allow-all --unstable-broadcast-channel --unstable-kv ./update-semver-deploy-jsr.workflow.ts vseplet luminous"
   },
   "lint": {
     "files": {

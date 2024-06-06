@@ -8,12 +8,23 @@ import {
 import { SourceType } from 'https://deno.land/x/shibui@v18/core/types.ts';
 import { sh } from 'https://deno.land/x/shelly@v0.1.1/mod.ts';
 
+const scope = Deno.args[0];
+const packageName = Deno.args[1];
+
 const denoJsonFilePath = './deno.json';
 const versionsFilePath = './source/versions.ts';
 const versionsExportPattern = /export default \[\s*([\s\S]*?)\s*\];/;
-const mdUrlPattern =
-  /import\s+[^;]+from\s+'jsr:@vseplet\/luminous@[^']+';/g;
-const mdUrlReplacePattern = /(@vseplet\/luminous@)[^']+/;
+
+const mdUrlPattern = new RegExp(
+  String
+    .raw`import\s+[^;]+from\s+'jsr:@${scope}\/${packageName}@[^']+';`,
+  'g',
+);
+
+const mdUrlReplacePattern = new RegExp(
+  String
+    .raw`(@${scope}\/${packageName}@)[^']+`,
+);
 
 function incrementSemver(
   version: string,
@@ -105,6 +116,10 @@ const workflow = core.workflow(UpdateVersionContext)
           newVersionsTS = `export default ["${ctx.version}"];`;
         }
 
+        return next(t2, {
+          version: ctx.version,
+        });
+
         await Deno.writeTextFile(versionsFilePath, newVersionsTS);
 
         log.inf(ctx.version);
@@ -117,6 +132,7 @@ const workflow = core.workflow(UpdateVersionContext)
       .name('Update deno.json')
       .do(async ({ pots, log, next }) => {
         const ctx = pots[0].data;
+        return next(t3);
         const denoJsonRaw = await Deno.readTextFile(denoJsonFilePath);
         const json = JSON.parse(denoJsonRaw);
 
@@ -143,7 +159,6 @@ const workflow = core.workflow(UpdateVersionContext)
         ) {
           if (entry.isFile) {
             const fileContent = await Deno.readTextFile(entry.path);
-
             const updatedContent = fileContent.replace(
               mdUrlPattern,
               (match) => {
@@ -162,6 +177,7 @@ const workflow = core.workflow(UpdateVersionContext)
         }
 
         log.inf(ctx.version);
+        Deno.exit(0);
         return next(t4);
       });
 
@@ -211,6 +227,7 @@ core.api.settings.ALLOWED_LOGGING_SOURCE_TYPES = [
   SourceType.TASK,
 ];
 
+console.log(Deno.args);
+
 core.api.register(workflow);
-console.log('before start!');
 await core.api.start();
