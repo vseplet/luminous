@@ -1,12 +1,13 @@
 {
   "name": "@vseplet/luminous",
-  "version": "0.1.0",
+  "version": "v1",
   "exports": "./mod.ts",
-
   "lock": false,
   "test": {
     "files": {
-      "include": ["tests/"]
+      "include": [
+        "tests/"
+      ]
     }
   },
   "tasks": {
@@ -14,18 +15,24 @@
     "example:simple": "deno run --allow-all ./examples/simple.ts",
     "build-npm": "deno run --allow-all ./scripts/build-npm.ts"
   },
-
   "lint": {
     "files": {
-      "include": ["src/"]
+      "include": [
+        "src/"
+      ]
     },
     "rules": {
-      "tags": ["recommended"],
-      "include": ["ban-untagged-todo"],
-      "exclude": ["no-slow-types"]
+      "tags": [
+        "recommended"
+      ],
+      "include": [
+        "ban-untagged-todo"
+      ],
+      "exclude": [
+        "no-slow-types"
+      ]
     }
   },
-
   "fmt": {
     "options": {
       "useTabs": false,
@@ -34,7 +41,6 @@
       "singleQuote": true,
       "proseWrap": "preserve"
     },
-
     "files": {
       "exclude": [
         ".vscode",
@@ -45,7 +51,6 @@
       ]
     }
   },
-
   "compilerOptions": {
     "allowJs": false,
     "strict": true,
