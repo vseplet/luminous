@@ -1,15 +1,15 @@
 // deno-lint-ignore-file
 import { walk } from 'jsr:@std/fs@0.224.0';
-import core from 'https://deno.land/x/shibui@v15/core/mod.ts';
+import core from 'https://deno.land/x/shibui@v18/core/mod.ts';
 import {
   ContextPot,
   CoreStartPot,
-} from 'https://deno.land/x/shibui@v15/core/pots/mod.ts';
-import { SourceType } from 'https://deno.land/x/shibui@v15/core/types.ts';
+} from 'https://deno.land/x/shibui@v18/core/pots/mod.ts';
+import { SourceType } from 'https://deno.land/x/shibui@v18/core/types.ts';
 import { sh } from 'https://deno.land/x/shelly@v0.1.1/mod.ts';
 
 const denoJsonFilePath = './deno.json';
-const versionsFilePath = './source/versions.ts';
+const versionsFilePath = './versions.ts';
 const versionsExportPattern = /export default \[\s*([\s\S]*?)\s*\];/;
 const mdUrlPattern = /https:\/\/deno\.land\/x\/luminous@[^/]+\//;
 const mdUrlReplacePattern = /@[^/]+\//;
