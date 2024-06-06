@@ -34,6 +34,3 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           deno run --allow-all --unstable-broadcast-channel --unstable-kv ./update-semver-deploy-jsr.workflow.ts
-
-      # - name: Publish
-      #   run: npx jsr publish --allow-slow-types

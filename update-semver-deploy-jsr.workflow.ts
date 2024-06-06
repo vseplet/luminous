@@ -71,9 +71,7 @@ const workflow = core.workflow(UpdateVersionContext)
           ctx.version = incrementSemver(versions[0], 'minor');
 
           newVersionsTS = `export default [ ${
-            [ctx.version, ...versions].map((version) =>
-              `"${version}"`
-            )
+            [ctx.version, ...versions].map((version) => version)
               .join(', ')
           } ];\n`;
         } else {
