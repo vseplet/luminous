@@ -25,11 +25,23 @@ class UpdateVersionContext extends ContextPot<{
     updateType: 'patch',
     version: '0.0.0',
   };
+
+  constructor() {
+    super();
+    const settings = JSON.parse(Deno.readTextFileSync(
+      this.data.denoJsonFilePath,
+    ))?.workflows?.UpdateSemverDeployJsr;
+
+    if (settings?.versionsFilePath) {
+      this.data.versionsFilePath = settings.versionsFilePath;
+      console.log(this.data);
+    }
+  }
 }
 
 core.api.register(
   core.workflow(UpdateVersionContext)
-    .name('Update Version')
+    .name('UpdateSemverDeployJsr')
     .on(CoreStartPot)
     .sq(({ task1, shared1 }) => {
       const t6 = task1()
@@ -123,6 +135,8 @@ core.api.register(
           const denoJsonRaw = await Deno.readTextFile(
             ctx.denoJsonFilePath,
           );
+
+          console.log(ctx.denoJsonFilePath);
           const json = JSON.parse(denoJsonRaw);
 
           if (json.version) {

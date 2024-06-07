@@ -2,6 +2,11 @@
   "name": "@vseplet/luminous",
   "version": "1.0.1",
   "exports": "./source/mod.ts",
+  "workflows": {
+    "UpdateSemverDeployJsr": {
+      "versionsFilePath": "./source/versions.ts"
+    }
+  },
   "lock": false,
   "test": {
     "files": {
