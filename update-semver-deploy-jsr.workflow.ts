@@ -5,10 +5,13 @@ import {
   ContextPot,
   CoreStartPot,
 } from 'https://deno.land/x/shibui@v19/core/pots/mod.ts';
-import { SourceType } from 'https://deno.land/x/shibui@v19/core/types.ts';
+import {
+  IPot,
+  SourceType,
+} from 'https://deno.land/x/shibui@v19/core/types.ts';
 import { sh } from 'https://deno.land/x/shelly@v0.1.1/mod.ts';
-import { incrementSemver } from 'https://deno.land/x/automation_scripts@0.0.0/ci-cd/helpers/mod.ts';
-import { checkUpdateTypeByCommitMessage } from 'https://deno.land/x/automation_scripts@0.0.0/ci-cd/tasks/mod.ts';
+import { incrementSemver } from 'https://deno.land/x/automation_scripts@0.0.3/ci-cd/helpers/mod.ts';
+import { checkUpdateTypeByCommitMessage } from 'https://deno.land/x/automation_scripts@0.0.3/ci-cd/tasks/mod.ts';
 
 const scope = Deno.args[0];
 const packageName = Deno.args[1];
@@ -160,39 +163,16 @@ const workflow = core.workflow(UpdateVersionContext)
           newVersionsTS = `export default ["${ctx.version}"];`;
         }
         log.inf(ctx.version);
-        Deno.exit(0);
         await Deno.writeTextFile(versionsFilePath, newVersionsTS);
         return next(t2, {
           version: ctx.version,
         });
       });
 
-    const t0 = checkUpdateTypeByCommitMessage(
+    const t0 = shared1(checkUpdateTypeByCommitMessage(
       UpdateVersionContext,
-      t1,
-    );
-
-    // const t0 = task1()
-    //   .name('checkUpdateTypeByCommitMessage')
-    //   .do(async ({ pots, log, next }) => {
-    //     const ctx = pots[0].data;
-
-    //     const lastCommitText =
-    //       (await sh('git log -1 --pretty=%B')).stdout;
-
-    //     if (lastCommitText.indexOf('[major]') != -1) {
-    //       ctx.updateType = 'major';
-    //     } else if (lastCommitText.indexOf('[minor]') != -1) {
-    //       ctx.updateType = 'minor';
-    //     } else if (lastCommitText.indexOf('[patch]') != -1) {
-    //       ctx.updateType = 'patch';
-    //     }
-
-    //     log.inf(ctx.updateType);
-    //     return next(t1, {
-    //       updateType: ctx.updateType,
-    //     });
-    //   });
+      t1 as any,
+    ) as any);
 
     return t0;
   });
