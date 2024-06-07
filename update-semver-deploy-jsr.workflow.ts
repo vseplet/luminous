@@ -1,11 +1,11 @@
 // deno-lint-ignore-file
 import { walk } from 'jsr:@std/fs@0.224.0';
-import core from 'https://deno.land/x/shibui@v18/core/mod.ts';
+import core from 'https://deno.land/x/shibui@v19/core/mod.ts';
 import {
   ContextPot,
   CoreStartPot,
-} from 'https://deno.land/x/shibui@v18/core/pots/mod.ts';
-import { SourceType } from 'https://deno.land/x/shibui@v18/core/types.ts';
+} from 'https://deno.land/x/shibui@v19/core/pots/mod.ts';
+import { SourceType } from 'https://deno.land/x/shibui@v19/core/types.ts';
 import { sh } from 'https://deno.land/x/shelly@v0.1.1/mod.ts';
 import { incrementSemver } from 'https://deno.land/x/automation_scripts@0.0.0/ci-cd/helpers/mod.ts';
 import { checkUpdateTypeByCommitMessage } from 'https://deno.land/x/automation_scripts@0.0.0/ci-cd/tasks/mod.ts';
@@ -40,7 +40,7 @@ class UpdateVersionContext extends ContextPot<{
 const workflow = core.workflow(UpdateVersionContext)
   .name('Update Version')
   .on(CoreStartPot)
-  .sq(({ task1 }) => {
+  .sq(({ task1, shared1 }) => {
     const t6 = task1()
       .name('Publish to JSR')
       .do(async ({ log }) => {
@@ -159,10 +159,9 @@ const workflow = core.workflow(UpdateVersionContext)
         } else {
           newVersionsTS = `export default ["${ctx.version}"];`;
         }
-
-        await Deno.writeTextFile(versionsFilePath, newVersionsTS);
-
         log.inf(ctx.version);
+        Deno.exit(0);
+        await Deno.writeTextFile(versionsFilePath, newVersionsTS);
         return next(t2, {
           version: ctx.version,
         });
@@ -173,14 +172,34 @@ const workflow = core.workflow(UpdateVersionContext)
       t1,
     );
 
+    // const t0 = task1()
+    //   .name('checkUpdateTypeByCommitMessage')
+    //   .do(async ({ pots, log, next }) => {
+    //     const ctx = pots[0].data;
+
+    //     const lastCommitText =
+    //       (await sh('git log -1 --pretty=%B')).stdout;
+
+    //     if (lastCommitText.indexOf('[major]') != -1) {
+    //       ctx.updateType = 'major';
+    //     } else if (lastCommitText.indexOf('[minor]') != -1) {
+    //       ctx.updateType = 'minor';
+    //     } else if (lastCommitText.indexOf('[patch]') != -1) {
+    //       ctx.updateType = 'patch';
+    //     }
+
+    //     log.inf(ctx.updateType);
+    //     return next(t1, {
+    //       updateType: ctx.updateType,
+    //     });
+    //   });
+
     return t0;
   });
 
 core.api.settings.ALLOWED_LOGGING_SOURCE_TYPES = [
   SourceType.TASK,
 ];
-
-console.log(Deno.args);
 
 core.api.register(workflow);
 await core.api.start();
