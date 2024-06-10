@@ -1,7 +1,10 @@
 {
   "name": "@vseplet/luminous",
   "version": "1.0.2",
-  "exports": "./source/mod.ts",
+  "exports": {
+    ".": "./source/mod.ts",
+    "./Formatter": "./source/Formatter.ts"
+  },
   "workflows": {
     "UpdateSemverDeployJsr": {
       "versionsFilePath": "./source/versions.ts"
@@ -17,8 +20,7 @@
   },
   "tasks": {
     "example:hierarchy": "deno run --allow-all ./examples/hierarchy.ts",
-    "example:simple": "deno run --allow-all ./examples/simple.ts",
-    "update-and-deploy": "deno run --allow-all --unstable-broadcast-channel --unstable-kv ./update-semver-deploy-jsr.workflow.ts"
+    "example:simple": "deno run --allow-all ./examples/simple.ts"
   },
   "lint": {
     "files": {
