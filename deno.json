@@ -1,6 +1,6 @@
 {
   "name": "@vseplet/luminous",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "exports": {
     ".": "./source/mod.ts",
     "./Formatter": "./source/Formatter.ts"
