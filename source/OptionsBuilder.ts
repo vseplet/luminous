@@ -4,6 +4,7 @@ import { AbstractTransport } from './Transport.ts';
 import { Level } from './Level.ts';
 import { TextFormatter } from './formatters/TextFormatter.ts';
 import { TerminalTransport } from './transports/Terminal.ts';
+
 /**
  * OptionsBuilder
  * @class OptionsBuilder
