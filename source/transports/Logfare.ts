@@ -1,6 +1,5 @@
-import { AbstractTransport } from '../Transport.ts';
-import { Level } from '../Level.ts';
-import { IDataForFormatting } from '../Formatter.ts';
+import type { Level } from "../Level.ts";
+import { AbstractTransport, type FormattedData } from "$types";
 
 interface LogfareTransportOptions {
   source: string;
@@ -18,23 +17,22 @@ export class LogfareTransport
   extends AbstractTransport<LogfareTransportOptions> {
   constructor(options: LogfareTransportOptions) {
     super(options, {
-      source: '',
-      xApiKey: '',
-      hostName: 'unknown',
+      source: "",
+      xApiKey: "",
+      hostName: "unknown",
     });
   }
 
-  send(_level: Level, msg: string, data: IDataForFormatting): void {
+  send(_level: Level, msg: string, data: FormattedData): void {
     try {
       fetch(
-        'https://api.logflare.app/api/logs',
+        "https://api.logflare.app/api/logs",
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'X-API-KEY': this.options.xApiKey,
-            'Content-Type': 'application/json',
-            'User-Agent':
-              `Cloudflare Worker via ${this.options.hostName}`,
+            "X-API-KEY": this.options.xApiKey,
+            "Content-Type": "application/json",
+            "User-Agent": `Cloudflare Worker via ${this.options.hostName}`,
           },
           body: JSON.stringify({
             source: this.options.source,

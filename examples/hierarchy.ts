@@ -1,11 +1,11 @@
-import luminous from '../source/mod.ts';
+import luminous from "@vseplet/luminous";
 
 const mainLoggerOptions = new luminous.OptionsBuilder()
-  .setName('Main')
+  .setName("Main")
   .addTransport(
     new luminous.formatters.TextFormatter({
       showMetadata: true,
-      timestampPattern: 'yyyy-MM-dd HH:mm:ss',
+      timestampPattern: "yyyy-MM-dd HH:mm:ss",
     }),
     new luminous.transports.TerminalTransport(),
   )
@@ -13,12 +13,12 @@ const mainLoggerOptions = new luminous.OptionsBuilder()
 
 const moduleALoggerOptions = new luminous.OptionsBuilder()
   .inherit(mainLoggerOptions)
-  .setName('ModuleA')
+  .setName("ModuleA")
   .build();
 
 const moduleBLoggerOptions = new luminous.OptionsBuilder()
   .inherit(mainLoggerOptions)
-  .setName('ModuleB')
+  .setName("ModuleB")
   .build();
 
 namespace Main {
@@ -29,16 +29,16 @@ namespace Main {
 namespace ModuleA {
   const log = new luminous.Logger<{ a: number; b: number }>(
     moduleALoggerOptions,
-    'ex1',
+    "ex1",
   );
   log.dbg(`this is debug log`, { a: 1, b: 2 });
   log.usr`this is user log`;
 }
 
 namespace ModuleB {
-  const log = new luminous.Logger(moduleBLoggerOptions, 'ex2');
+  const log = new luminous.Logger(moduleBLoggerOptions, "ex2");
   log.wrn`this is warn log`;
   log.err`this is error log`;
 
-  log.err(new Error('Ups...'));
+  log.err(new Error("Ups..."));
 }

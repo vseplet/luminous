@@ -6,8 +6,8 @@
 // https://stackoverflow.com/questions/280389/how-do-you-find-out-the-caller-function-in-javascript
 export function getCallerFunctionName(depth = 3) {
   const stack = new Error().stack;
-  const caller = stack?.split('\n')[depth];
-  const callerFunctionName = caller?.split(' ')[1];
+  const caller = stack?.split("\n")[depth];
+  const callerFunctionName = caller?.split(" ")[1];
   return callerFunctionName;
 }
 
@@ -18,7 +18,7 @@ export function getCallerFunctionName(depth = 3) {
  */
 export function getCallerFileName(depth = 3) {
   const stack = new Error().stack;
-  const caller = stack?.split('\n')[depth];
-  const callerFileName = caller?.split(' ')[0];
+  const caller = stack?.split("\n")[depth];
+  const callerFileName = caller?.split(" ")[0];
   return callerFileName;
 }

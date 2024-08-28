@@ -16,12 +16,12 @@ export enum Level {
  * LevelName - The short name of the level
  */
 export const LevelShortName = {
-  [Level.TRACE]: 'TRC',
-  [Level.DEBUG]: 'DBG',
-  [Level.VERBOSE]: 'VRB',
-  [Level.INFO]: 'INF',
-  [Level.USER]: 'USR',
-  [Level.WARN]: 'WRN',
-  [Level.ERROR]: 'ERR',
-  [Level.FATAL]: 'FTL',
+  [Level.TRACE]: "TRC",
+  [Level.DEBUG]: "DBG",
+  [Level.VERBOSE]: "VRB",
+  [Level.INFO]: "INF",
+  [Level.USER]: "USR",
+  [Level.WARN]: "WRN",
+  [Level.ERROR]: "ERR",
+  [Level.FATAL]: "FTL",
 };

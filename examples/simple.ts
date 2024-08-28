@@ -1,4 +1,4 @@
-import luminous from '../source/mod.ts';
+import luminous from "@vseplet/luminous";
 
 const log = new luminous.Logger();
 

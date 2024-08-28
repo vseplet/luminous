@@ -1,8 +1,5 @@
-import {
-  AbstractFormatter,
-  IDataForFormatting,
-} from '../Formatter.ts';
-import { formatDate } from '../helpers/time.ts';
+import { formatDate } from "../helpers/time.ts";
+import { AbstractFormatter, type FormattedData } from "$types";
 
 /**
  * IJsonFormatterOptions
@@ -19,15 +16,14 @@ interface IJsonFormatterOptions {
  * @extends Formatter
  * @property {IJsonFormatterOptions} options
  */
-export class JsonFormatter
-  extends AbstractFormatter<IJsonFormatterOptions> {
+export class JsonFormatter extends AbstractFormatter<IJsonFormatterOptions> {
   constructor(options = {}) {
     super(options, {
-      timestampPattern: 'yyyy-MM-dd HH:mm:ss',
+      timestampPattern: "yyyy-MM-dd HH:mm:ss",
     });
   }
 
-  format(data: IDataForFormatting): string {
+  format(data: FormattedData): string {
     const time = formatDate(
       new Date(),
       this.options.timestampPattern,

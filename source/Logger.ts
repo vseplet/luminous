@@ -1,24 +1,8 @@
-import { AbstractFormatter } from './Formatter.ts';
-import { AbstractTransport } from './Transport.ts';
-import { Level } from './Level.ts';
-import { OptionsBuilder } from './OptionsBuilder.ts';
+import { OptionsBuilder } from "./OptionsBuilder.ts";
+import type { FormatterAndTransports, LoggerOptions } from "$types";
+import { Level } from "./Level.ts";
 
 export type MessageType = string | TemplateStringsArray;
-
-export type FormatterAndTransports = {
-  // deno-lint-ignore no-explicit-any
-  formatter: AbstractFormatter<any>;
-  // deno-lint-ignore no-explicit-any
-  transports: AbstractTransport<any>[];
-};
-
-export interface LoggerOptions {
-  parents: Array<string>;
-  name: string;
-  loggingLevel: Level;
-  excludedLoggingLevels: Level[];
-  listOfFormatterAndTransports: FormatterAndTransports[];
-}
 
 /**
  * Logger class for logging messages
@@ -30,15 +14,15 @@ export interface LoggerOptions {
 // deno-lint-ignore ban-types
 export class Logger<MT = {}> {
   parents: Array<string> = [];
-  name = 'default';
-  postfix = '';
+  name = "default";
+  postfix = "";
   loggingLevel = Level.TRACE;
-  uuid = 'ABCDEF';
+  uuid = "ABCDEF";
   listOfFormatterAndTransports: FormatterAndTransports[] = [];
 
   constructor(
     options: LoggerOptions = new OptionsBuilder().build(),
-    postfix: string = '',
+    postfix: string = "",
   ) {
     this.parents = options.parents;
     this.name = options.name;
@@ -56,7 +40,7 @@ export class Logger<MT = {}> {
    * @returns {string}
    */
   def(level: Level, msg: MessageType, metadata: MT): string {
-    const msgString = typeof msg === 'object' ? msg.join(' ') : msg;
+    const msgString = typeof msg === "object" ? msg.join(" ") : msg;
 
     this.listOfFormatterAndTransports.forEach((combination) => {
       const data = {

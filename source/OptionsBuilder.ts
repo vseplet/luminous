@@ -1,9 +1,12 @@
-import { AbstractFormatter } from './Formatter.ts';
-import { FormatterAndTransports, LoggerOptions } from './Logger.ts';
-import { AbstractTransport } from './Transport.ts';
-import { Level } from './Level.ts';
-import { TextFormatter } from './formatters/TextFormatter.ts';
-import { TerminalTransport } from './transports/Terminal.ts';
+import { TextFormatter } from "./formatters/TextFormatter.ts";
+import { TerminalTransport } from "./transports/Terminal.ts";
+import type {
+  AbstractFormatter,
+  AbstractTransport,
+  FormatterAndTransports,
+  LoggerOptions,
+} from "$types";
+import { Level } from "./Level.ts";
 
 /**
  * OptionsBuilder
@@ -126,7 +129,7 @@ export class OptionsBuilder {
 
     return {
       parents: parents,
-      name: this.name || this.parent?.name || 'default',
+      name: this.name || this.parent?.name || "default",
       loggingLevel: this.parent?.loggingLevel || this.loggingLevel ||
         Level.TRACE,
       excludedLoggingLevels: Array.from(
@@ -135,15 +138,14 @@ export class OptionsBuilder {
           ...this.parent?.excludedLoggingLevels || [],
         ]),
       ),
-      listOfFormatterAndTransports:
-        listOfFormatterAndTransports.length
-          ? listOfFormatterAndTransports
-          : [
-            {
-              formatter: new TextFormatter(),
-              transports: [new TerminalTransport()],
-            },
-          ],
+      listOfFormatterAndTransports: listOfFormatterAndTransports.length
+        ? listOfFormatterAndTransports
+        : [
+          {
+            formatter: new TextFormatter(),
+            transports: [new TerminalTransport()],
+          },
+        ],
     };
   }
 }

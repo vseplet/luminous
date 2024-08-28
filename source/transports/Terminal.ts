@@ -1,5 +1,5 @@
-import { AbstractTransport } from '../Transport.ts';
-import { Level } from '../Level.ts';
+import { Level } from "../Level.ts";
+import { AbstractTransport } from "$types";
 
 interface TerminalTransportOptions {
   // TODO: add options

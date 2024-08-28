@@ -19,7 +19,7 @@ format to suit their preferences.
 ### Usage
 
 ```ts
-import luminous from 'jsr:@vseplet/luminous@1.0.5';
+import luminous from "jsr:@vseplet/luminous@1.0.5";
 
 const log = new luminous.Logger();
 log.trc`Hello, World!`;
@@ -166,7 +166,7 @@ methods for setting various options. For example:
 
 ```ts
 const loggerOptions = new luminous.OptionsBuilder()
-  .setName('Main')
+  .setName("Main")
   .build();
 
 const logger = new luminous.Logger(loggerOptions);
@@ -217,12 +217,12 @@ may be attached to the message. Currently, Luminous has two basic forrmaters:
 // Create a new TextFormatter instance that formats log messages as text with metadata and a custom timestamp pattern.
 const textFormatter = new luminous.formatters.TextFormatter({
   showMetadata: true,
-  timestampPattern: 'yyyy-MM-dd HH:mm:ss',
+  timestampPattern: "yyyy-MM-dd HH:mm:ss",
 });
 
 // Create a new OptionsBuilder instance to configure the logger options.
 const loggerOptions = new luminous.OptionsBuilder()
-  .setName('Main') // Set the name of the logger to 'Main'.
+  .setName("Main") // Set the name of the logger to 'Main'.
   .addTransport(
     textFormatter,
     new luminous.transports.TerminalTransport(),
@@ -233,7 +233,7 @@ const loggerOptions = new luminous.OptionsBuilder()
 const logger = new luminous.Logger(loggerOptions);
 
 // Log an information message with metadata.
-logger.inf(`Hello, World!`, { meta0: '0', meta1: '1' });
+logger.inf(`Hello, World!`, { meta0: "0", meta1: "1" });
 // 2023-02-26 01:58:35 [INF] Main: Hello, World! {
 //  meta0: "0"
 //  mrta1: "1"
@@ -242,12 +242,12 @@ logger.inf(`Hello, World!`, { meta0: '0', meta1: '1' });
 
 ## DONATE
 
-🫶 You can support me and my work in the following ways: <br>
-**TON**: `EQBiaSPuG33CuKXHClwsVvA-SazmLmtiTfXV7dQnqJdIlGgI`<br>
-**USDT (TRC 20)** `(TRC20): TGPWzEiQjMYHjZx4fb3SDSumiSXdmjE4ZR`<br>
-**BTC**: `bc1qq37svf4h8sg5qjsv99n9jf3r45dtd5yf5mdpc5`<br>
-**ETH**: `0xAdc58F26cA3dCc01256cF1BeF6221f4bcaa3c660`<br>
-**SOL**: `BckFFoxZw36ABbNS8Fc66LCdzJhu4ZwQANRdq49XmqKw`<br>
+🫶 You can support me and my work in the following ways: <br> **TON**:
+`EQBiaSPuG33CuKXHClwsVvA-SazmLmtiTfXV7dQnqJdIlGgI`<br> **USDT (TRC 20)**
+`(TRC20): TGPWzEiQjMYHjZx4fb3SDSumiSXdmjE4ZR`<br> **BTC**:
+`bc1qq37svf4h8sg5qjsv99n9jf3r45dtd5yf5mdpc5`<br> **ETH**:
+`0xAdc58F26cA3dCc01256cF1BeF6221f4bcaa3c660`<br> **SOL**:
+`BckFFoxZw36ABbNS8Fc66LCdzJhu4ZwQANRdq49XmqKw`<br>
 
 ## LICENCE
 

@@ -1,53 +1,33 @@
 {
   "name": "@vseplet/luminous",
   "version": "1.0.5",
+  "license": "MIT",
+  "lock": false,
   "exports": {
     ".": "./source/mod.ts",
-    "./Formatter": "./source/Formatter.ts"
+    "./transports": "./source/transports/mod.ts",
+    "./formatters": "./source/formatters/mod.ts",
+    "./helpers": "./source/helpers/mod.ts",
+    "./types": "./source/types.ts"
+  },
+  "imports": {
+    "$/": "./source/",
+    "$helpers": "./source/helpers/mod.ts",
+    "$types": "./source/types.ts",
+    "@std/fmt/colors": "jsr:@std/fmt@0.224.0/colors",
+    "@std/fmt/printf": "jsr:@std/fmt@0.224.0/printf"
   },
   "workflows": {
     "UpdateSemverDeployJsr": {
       "versionsFilePath": "./source/versions.ts"
     }
   },
-  "lock": false,
-  "test": {
-    "files": {
-      "include": [
-        "tests/"
-      ]
-    }
-  },
   "tasks": {
     "example:hierarchy": "deno run --allow-all ./examples/hierarchy.ts",
-    "example:simple": "deno run --allow-all ./examples/simple.ts"
-  },
-  "lint": {
-    "files": {
-      "include": [
-        "src/"
-      ]
-    },
-    "rules": {
-      "tags": [
-        "recommended"
-      ],
-      "include": [
-        "ban-untagged-todo"
-      ],
-      "exclude": [
-        "no-slow-types"
-      ]
-    }
+    "example:simple": "deno run --allow-all ./examples/simple.ts",
+    "pub-dry": "deno publish --dry-run --allow-slow-types"
   },
   "fmt": {
-    "options": {
-      "useTabs": false,
-      "lineWidth": 70,
-      "indentWidth": 2,
-      "singleQuote": true,
-      "proseWrap": "preserve"
-    },
     "files": {
       "exclude": [
         ".vscode",
@@ -57,18 +37,5 @@
         "./source/versions.ts"
       ]
     }
-  },
-  "compilerOptions": {
-    "allowJs": false,
-    "strict": true,
-    "alwaysStrict": true,
-    "useUnknownInCatchVariables": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "noUnusedParameters": true,
-    "noImplicitThis": true,
-    "noImplicitReturns": true,
-    "exactOptionalPropertyTypes": true
   }
 }
