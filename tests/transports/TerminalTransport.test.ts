@@ -1,9 +1,8 @@
 import { assertEquals } from "@std/assert";
 import { TerminalTransport } from "../../source/transports/Terminal.ts";
 import { Level } from "../../source/Level.ts";
-import type { FormattedData } from "../../source/types.ts";
 
-Deno.test("TerminalTransport should send messages below ERROR to stdout", async () => {
+Deno.test("TerminalTransport should send messages below ERROR to stdout", () => {
   const transport = new TerminalTransport();
   const levels = [
     Level.TRACE,
@@ -19,18 +18,9 @@ Deno.test("TerminalTransport should send messages below ERROR to stdout", async 
     const originalWrite = Deno.stdout.write;
     let written = false;
 
-    Deno.stdout.write = async (data: Uint8Array) => {
+    Deno.stdout.write = (data: Uint8Array): Promise<number> => {
       written = true;
-      return await originalWrite.call(Deno.stdout, data);
-    };
-
-    const data: FormattedData = {
-      parents: [],
-      name: "test",
-      postfix: "",
-      level,
-      msg: "Test message",
-      metadata: {},
+      return originalWrite.call(Deno.stdout, data);
     };
 
     transport.send(level, "Test message");
@@ -42,7 +32,7 @@ Deno.test("TerminalTransport should send messages below ERROR to stdout", async 
   }
 });
 
-Deno.test("TerminalTransport should send ERROR and FATAL to stderr", async () => {
+Deno.test("TerminalTransport should send ERROR and FATAL to stderr", () => {
   const transport = new TerminalTransport();
   const levels = [Level.ERROR, Level.FATAL];
 
@@ -51,18 +41,9 @@ Deno.test("TerminalTransport should send ERROR and FATAL to stderr", async () =>
     const originalWrite = Deno.stderr.write;
     let written = false;
 
-    Deno.stderr.write = async (data: Uint8Array) => {
+    Deno.stderr.write = (data: Uint8Array): Promise<number> => {
       written = true;
-      return await originalWrite.call(Deno.stderr, data);
-    };
-
-    const data: FormattedData = {
-      parents: [],
-      name: "test",
-      postfix: "",
-      level,
-      msg: "Test message",
-      metadata: {},
+      return originalWrite.call(Deno.stderr, data);
     };
 
     transport.send(level, "Test message");

@@ -14,6 +14,6 @@ const luminous = {
   Logger,
 };
 
-export const log = new Logger();
+export const log: Logger = new Logger();
 export { Level, Logger, OptionsBuilder };
 export default luminous;

@@ -160,7 +160,8 @@ import luminous from "jsr:@vseplet/luminous@2.0.0";
 const log = new luminous.Logger("MyApp");
 log.inf`Application started`;
 log.err(new Error("Something went wrong"));
-log.inf`User logged in`, { userId: 123, username: "john" };
+// Metadata передается вторым аргументом (не работает с template strings)
+log.inf("User logged in", { userId: 123, username: "john" });
 ```
 
 ### Hierarchical Logging

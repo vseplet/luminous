@@ -21,12 +21,14 @@ const moduleBLoggerOptions = new luminous.OptionsBuilder()
   .setName("ModuleB")
   .build();
 
-namespace Main {
+// Main module
+{
   const log = new luminous.Logger(mainLoggerOptions);
   log.trc`this is trace log`;
 }
 
-namespace ModuleA {
+// ModuleA
+{
   const log = new luminous.Logger<{ a: number; b: number }>(
     moduleALoggerOptions,
     "ex1",
@@ -35,7 +37,8 @@ namespace ModuleA {
   log.usr`this is user log`;
 }
 
-namespace ModuleB {
+// ModuleB
+{
   const log = new luminous.Logger(moduleBLoggerOptions, "ex2");
   log.wrn`this is warn log`;
   log.err`this is error log`;

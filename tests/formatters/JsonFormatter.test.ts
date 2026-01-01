@@ -1,4 +1,4 @@
-import { assertEquals, assertStringIncludes } from "@std/assert";
+import { assertEquals } from "@std/assert";
 import { JsonFormatter } from "../../source/formatters/JsonFormatter.ts";
 import { Level } from "../../source/Level.ts";
 import type { FormattedData } from "../../source/types.ts";

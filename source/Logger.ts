@@ -1,4 +1,3 @@
-import { OptionsBuilder } from "$/OptionsBuilder.ts";
 import type {
   FormatterAndTransports,
   LoggerInitOptions,
@@ -121,7 +120,7 @@ export class Logger<MT = {}> {
    * @param {string} msg message
    * @returns {string} message
    */
-  trc(msg: MessageType, metadata: MT = {} as MT) {
+  trc(msg: MessageType, metadata: MT = {} as MT): string {
     return this.def(Level.TRACE, msg, metadata);
   }
 
@@ -130,7 +129,7 @@ export class Logger<MT = {}> {
    * @param {string} msg message
    * @returns {string} message
    */
-  dbg(msg: MessageType, metadata: MT = {} as MT) {
+  dbg(msg: MessageType, metadata: MT = {} as MT): string {
     return this.def(Level.DEBUG, msg, metadata);
   }
 
@@ -139,7 +138,7 @@ export class Logger<MT = {}> {
    * @param {string} msg message
    * @returns {string} message
    */
-  vrb(msg: MessageType, metadata: MT = {} as MT) {
+  vrb(msg: MessageType, metadata: MT = {} as MT): string {
     return this.def(Level.VERBOSE, msg, metadata);
   }
 
@@ -148,7 +147,7 @@ export class Logger<MT = {}> {
    * @param {string} msg message
    * @returns {string} message
    */
-  inf(msg: MessageType, metadata: MT = {} as MT) {
+  inf(msg: MessageType, metadata: MT = {} as MT): string {
     return this.def(Level.INFO, msg, metadata);
   }
 
@@ -157,7 +156,7 @@ export class Logger<MT = {}> {
    * @param {string} msg message
    * @returns {string} message
    */
-  usr(msg: MessageType, metadata: MT = {} as MT) {
+  usr(msg: MessageType, metadata: MT = {} as MT): string {
     return this.def(Level.USER, msg, metadata);
   }
 
@@ -166,7 +165,7 @@ export class Logger<MT = {}> {
    * @param {string} msg message
    * @returns {string} message
    */
-  wrn(msg: MessageType, metadata: MT = {} as MT) {
+  wrn(msg: MessageType, metadata: MT = {} as MT): string {
     return this.def(Level.WARN, msg, metadata);
   }
 
@@ -175,7 +174,7 @@ export class Logger<MT = {}> {
    * @param {string} msg message
    * @returns {string} message
    */
-  err(msg: MessageType | Error, metadata: MT = {} as MT) {
+  err(msg: MessageType | Error, metadata: MT = {} as MT): string {
     if (msg instanceof Error) {
       return this.def(Level.ERROR, msg.message, {
         stack: msg.stack,
@@ -191,7 +190,7 @@ export class Logger<MT = {}> {
    * @param {string} msg message
    * @returns {string} message
    */
-  ftl(msg: MessageType, metadata: MT = {} as MT) {
+  ftl(msg: MessageType, metadata: MT = {} as MT): string {
     return this.def(Level.FATAL, msg, metadata);
   }
 

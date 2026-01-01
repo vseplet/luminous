@@ -1,6 +1,7 @@
 import { Level } from "$/Level.ts";
 import { AbstractTransport } from "$types";
 
+// deno-lint-ignore no-empty-interface
 interface TerminalTransportOptions {
   // TODO: add options
 }

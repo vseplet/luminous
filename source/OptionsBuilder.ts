@@ -71,7 +71,7 @@ export class OptionsBuilder {
    * @param parent
    * @returns
    */
-  inherit(parent: LoggerOptions) {
+  inherit(parent: LoggerOptions): OptionsBuilder {
     this.parent = parent;
     return this;
   }
