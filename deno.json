@@ -31,14 +31,12 @@
     "test:watch": "deno test --allow-all --watch"
   },
   "fmt": {
-    "files": {
-      "exclude": [
-        ".vscode",
-        ".idea",
-        ".fleet",
-        ".git",
-        "./source/versions.ts"
-      ]
-    }
+    "exclude": [
+      ".vscode",
+      ".idea",
+      ".fleet",
+      ".git",
+      "./source/versions.ts"
+    ]
   }
 }

@@ -4,251 +4,222 @@
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/vseplet/luminous)](https://github.com/vseplet/luminous/pulse)
 [![GitHub last commit](https://img.shields.io/github/last-commit/vseplet/luminous)](https://github.com/vseplet/luminous/commits/main)
 
-## 👋 👋 ATTENTION!
+> ⚠️ This package is under active development. Contributions and feedback are
+> welcome!
 
-> This package is under development and will be frequently updated. The author
-> would appreciate any help, advice, and pull requests! Thank you for your
-> understanding 😊
+Luminous is a highly configurable logger for Deno written in TypeScript. It
+provides a simple and flexible way to log events with various severity levels,
+hierarchical loggers, and customizable formatters.
 
-Luminous is a extremely configurable logger for Deno written in TypeScript. It
-provides a simple and flexible way to log events and messages in Deno
-applications with various levels of severity. With Luminous, developers can
-configure the logger to meet their specific needs and customize the logging
-format to suit their preferences.
-
-### Usage
+## Quick Start
 
 ```ts
 import luminous from "jsr:@vseplet/luminous@1.0.6";
 
-const log = new luminous.Logger();
-log.trc`Hello, World!`;
+// Create a logger with name
+const log = new luminous.Logger("MyApp");
+log.inf`Hello, World!`;
+// 02:15:30.123 [INF] MyApp: Hello, World!
 ```
 
-## Examples
+## Logging Levels
 
-- different logs by logging levels: [simple.ts](./examples/simple.ts)
+Luminous provides 8 logging levels:
 
-```bash
-deno task exmaple:simple
-```
-
-- inheritance of options when creating new loggers:
-  [hierarchy.ts](./examples/hierarchy.ts), run:
-
-```bash
-deno task exmaple:hierarchy
-```
-
-## Contents
-
-- [luminous](#luminous)
-  - [👋 👋 ATTENTION!](#--attention)
-    - [Usage](#usage)
-  - [Examples](#examples)
-  - [Contents](#contents)
-  - [Levels](#levels)
-  - [Logger Options](#logger-options)
-  - [Transports](#transports)
-  - [Formatters](#formatters)
-  - [DONATE](#donate)
-  - [LICENCE](#licence)
-
-## Levels
-
-Luminous provides eight different logging levels that enable developers to log
-events and messages with different levels of severity. Each level is designed to
-serve a specific purpose and can help developers troubleshoot issues and debug
-complex problems.<br><br> 0 TRACE:<br>
+| Level | Method  | Short Name | Description                                     |
+| ----- | ------- | ---------- | ----------------------------------------------- |
+| 0     | `trc()` | TRC        | Most detailed information for debugging         |
+| 1     | `dbg()` | DBG        | Debug information during development            |
+| 2     | `vrb()` | VRB        | Verbose information about application state     |
+| 3     | `inf()` | INF        | General information about application operation |
+| 4     | `usr()` | USR        | User-related events and actions                 |
+| 5     | `wrn()` | WRN        | Warnings about potential issues                 |
+| 6     | `err()` | ERR        | Errors that occur but are recoverable           |
+| 7     | `ftl()` | FTL        | Critical errors that may stop the application   |
 
 ```ts
-log.trc`This is TRACE log message`;
-// 01:58:35 [TRC] default: This is TRACE log message
+const log = new luminous.Logger("MyApp");
+
+log.trc`Trace message`; // [TRC]
+log.dbg`Debug message`; // [DBG]
+log.vrb`Verbose message`; // [VRB]
+log.inf`Info message`; // [INF]
+log.usr`User message`; // [USR]
+log.wrn`Warning message`; // [WRN]
+log.err`Error message`; // [ERR]
+log.ftl`Fatal message`; // [FTL]
 ```
 
-The TRACE level is the lowest level of severity in Luminous. This level is used
-to log the most detailed information about an application's execution, such as
-method calls, function parameters, and variable values. The TRACE level is
-useful for debugging complex issues and identifying the root cause of a problem.
+## Creating Loggers
 
-1 DEBUG:<br>
+### Basic Logger
 
 ```ts
-log.dbg`This is DEBUG log message`;
-// 01:58:35 [DBG] default: This is DEBUG log message
+// Create a named logger
+const log = new luminous.Logger("MyApp");
+
+// Create default logger
+const log = new luminous.Logger(); // name: "default"
+
+// Create with options
+const log = new luminous.Logger({
+  name: "MyApp",
+  level: luminous.Level.INFO,
+  formatter: new luminous.formatters.TextFormatter(),
+  transport: new luminous.transports.TerminalTransport(),
+});
 ```
 
-The DEBUG level is used to log debugging information that is useful for
-developers during application development. This level can include information
-about application flow, execution paths, and other relevant details that can
-help developers identify and fix bugs.
+### Hierarchical Loggers
 
-2 VERBOSE:<br>
+Create child loggers that inherit configuration from parent:
 
 ```ts
-log.vrb`This is VERBOSE log message`;
-// 01:58:35 [VRB] default: This is VERBOSE log message
-```
+// Create parent logger
+const parent = new luminous.Logger({
+  name: "App",
+  formatter: new luminous.formatters.TextFormatter({
+    showMetadata: true,
+    timestampPattern: "yyyy-MM-dd HH:mm:ss",
+  }),
+  transport: new luminous.transports.TerminalTransport(),
+});
 
-The VERBOSE level is used to log detailed information that is not critical to
-the application's operation but can be useful for developers during debugging.
-This level includes information about application state, network activity, and
-other detailed events.
+// Create child loggers
+const apiLog = parent.child("API");
+const dbLog = parent.child("Database", "db"); // with postfix
 
-3 INFO:<br>
+apiLog.inf`Request received`; // [INF] App.API: Request received
+dbLog.wrn`Connection slow`; // [WRN] App.Database db: Connection slow
 
-```ts
-log.inf`This is INFO log message`;
-// 01:58:35 [INF] default: This is INFO log message
-```
+// Deep hierarchy with postfix
+const userLog = apiLog.child("User", "auth"); // postfix as string
+userLog.dbg`User authenticated`; // [DBG] App.API.User auth: User authenticated
 
-The INFO level is used to log information about the application's operation.
-This level includes messages that indicate when the application starts or stops,
-when it performs significant operations, or when it encounters events that may
-be of interest to developers or system administrators.
-
-4 USER:<br>
-
-```ts
-log.usr`This is USER log message`;
-// 01:58:35 [USR] default: This is USER log message
-```
-
-The USER level is used to log events that are relevant to end-users, such as
-login attempts, user actions, and other user-related events. This level is
-useful for tracking user behavior and identifying usability issues.
-
-5 WARN:<br>
-
-```ts
-log.wrn`This is WARN log message`;
-// 01:58:35 [WRN] default: This is WARN log message
-```
-
-The WARN level is used to log warnings about potential issues that may affect
-the application's operation. This level includes messages about deprecated APIs,
-invalid configuration settings, or other issues that may cause unexpected
-behavior.
-
-6 ERROR:<br>
-
-```ts
-log.err`This is ERROR log message`;
-// 01:58:35 [ERR] default: This is ERROR log message
-```
-
-The ERROR level is used to log errors that occur during application execution
-but are recoverable. This level includes messages about exceptions, timeouts, or
-other errors that may require attention but do not necessarily require the
-application to stop.
-
-7 FATAL:<br>
-
-```ts
-log.ftl`This is FATAL log message`;
-// 01:58:35 [FTL] default: This is FATAL log message
-```
-
-The FATAL level is used to log critical errors that require immediate attention
-and may cause the application to stop. This level includes messages about
-unrecoverable errors, such as out-of-memory errors, disk failures, or other
-catastrophic events.
-
-## Logger Options
-
-[LoggerOptions](./src/Logger.ts) in Luminous are a set of configurable settings
-that enable developers to customize the behavior and functionality of the logger
-to meet their specific needs. The [OptionsBuilder](./src/OptionsBuilder.ts)
-class in Luminous is a utility class that provides a fluent API for building and
-configuring logger options. It allows developers to create and customize
-LoggerOptions objects in a flexible and intuitive way, by providing a set of
-methods for setting various options. For example:
-
-```ts
-const loggerOptions = new luminous.OptionsBuilder()
-  .setName("Main")
-  .build();
-
-const logger = new luminous.Logger(loggerOptions);
-logger.inf`Hello, World!`;
+// Child with custom options
+const customChild = parent.child("Custom", {
+  postfix: "test",
+  level: luminous.Level.WARN,
+});
 ```
 
 ## Transports
 
-The [AbstractTransport](./src/Transport.ts) is the base class for all transports
-in Luminous. A transport is responsible for sending formatted log messages to
-their final destination, which could be the console, a file, a database, or any
-other endpoint. At the moment, Luminous has a
-[TerminalTransport](./src/transports/Terminal.ts). For example:
+Transports send formatted log messages to their destination. Default transport
+is `TerminalTransport` (automatically applied).
 
 ```ts
-// Create a new instance of TerminalTransport to send logs to the terminal.
-const transport = new luminous.transports.TermianlTransport(),
+import { TerminalTransport } from "jsr:@vseplet/luminous/transports";
 
-// Create a new OptionsBuilder instance to configure the logger options.
-const loggerOptions = new luminous.OptionsBuilder()
-  .setName('Main') // Set the name of the logger to 'Main'.
-  .addTransport(
-    new luminous.formatters.TextFormatter(),
-    transport,
-  ) // Add the TextFormatter and TerminalTransport to the logger.
-  .build(); // Build the final logger options object.
-
-// Create a new logger instance with the configured options.
-const logger = new luminous.Logger(loggerOptions);
-
-// Log an information message.
-logger.inf(`Hello, World!`);
-// 01:58:35 [INF] Main: Hello, World!
+// Custom transport
+const log = new luminous.Logger({
+  name: "MyApp",
+  formatter: new luminous.formatters.TextFormatter(),
+  transport: new TerminalTransport(),
+});
 ```
 
 ## Formatters
 
-In Luminous, a [AbstractFormatter](./src/Formatter.ts) is a class that is
-responsible for formatting log messages into a human-readable string format. The
-[IDataForFormatting](./src/Formatter.ts) interface defines the data that is
-passed to the formatter, which includes the name of the logger, the severity
-level of the log message, the message itself, and any additional metadata that
-may be attached to the message. Currently, Luminous has two basic forrmaters:
-[TextFormatter](./src/formatters/TextFormatter.ts) and
-[JsonFormatter](./src/formatters/JsonFormatter.ts). For example:
+Formatters convert log data into strings. Available formatters:
+
+### TextFormatter
+
+Human-readable text format with colors:
 
 ```ts
-// Create a new TextFormatter instance that formats log messages as text with metadata and a custom timestamp pattern.
-const textFormatter = new luminous.formatters.TextFormatter({
+import { TextFormatter } from "jsr:@vseplet/luminous/formatters";
+
+const formatter = new TextFormatter({
   showMetadata: true,
+  showTimestamp: true,
   timestampPattern: "yyyy-MM-dd HH:mm:ss",
+  colorize: true,
 });
-
-// Create a new OptionsBuilder instance to configure the logger options.
-const loggerOptions = new luminous.OptionsBuilder()
-  .setName("Main") // Set the name of the logger to 'Main'.
-  .addTransport(
-    textFormatter,
-    new luminous.transports.TerminalTransport(),
-  ) // Add the TextFormatter and TerminalTransport to the logger.
-  .build(); // Build the final logger options object.
-
-// Create a new logger instance with the configured options.
-const logger = new luminous.Logger(loggerOptions);
-
-// Log an information message with metadata.
-logger.inf(`Hello, World!`, { meta0: "0", meta1: "1" });
-// 2023-02-26 01:58:35 [INF] Main: Hello, World! {
-//  meta0: "0"
-//  mrta1: "1"
-// }
 ```
 
-## DONATE
+### JsonFormatter
 
-🫶 You can support me and my work in the following ways: <br> **TON**:
-`EQBiaSPuG33CuKXHClwsVvA-SazmLmtiTfXV7dQnqJdIlGgI`<br> **USDT (TRC 20)**
-`(TRC20): TGPWzEiQjMYHjZx4fb3SDSumiSXdmjE4ZR`<br> **BTC**:
-`bc1qq37svf4h8sg5qjsv99n9jf3r45dtd5yf5mdpc5`<br> **ETH**:
-`0xAdc58F26cA3dCc01256cF1BeF6221f4bcaa3c660`<br> **SOL**:
-`BckFFoxZw36ABbNS8Fc66LCdzJhu4ZwQANRdq49XmqKw`<br>
+JSON format for structured logging:
 
-## LICENCE
+```ts
+import { JsonFormatter } from "jsr:@vseplet/luminous/formatters";
 
-[LGPL-2.1](https://github.com/sevapp/luminous/blob/main/LICENSE)
+const formatter = new JsonFormatter({
+  timestampPattern: "yyyy-MM-dd HH:mm:ss",
+});
+```
+
+## Examples
+
+### Basic Usage
+
+```ts
+import luminous from "jsr:@vseplet/luminous@1.0.6";
+
+const log = new luminous.Logger("MyApp");
+log.inf`Application started`;
+log.err(new Error("Something went wrong"));
+log.inf`User logged in`, { userId: 123, username: "john" };
+```
+
+### Hierarchical Logging
+
+```ts
+import luminous from "jsr:@vseplet/luminous@1.0.6";
+
+// Setup parent logger
+const app = new luminous.Logger("App");
+
+// Create module loggers
+const api = app.child("API");
+const db = app.child("Database");
+
+api.inf`Server started on port 3000`;
+db.wrn`Connection pool exhausted`;
+```
+
+### Custom Configuration
+
+```ts
+import luminous from "jsr:@vseplet/luminous@1.0.6";
+
+const log = new luminous.Logger({
+  name: "MyApp",
+  level: luminous.Level.INFO,
+  formatter: new luminous.formatters.TextFormatter({
+    showMetadata: true,
+    timestampPattern: "HH:mm:ss",
+  }),
+  transport: new luminous.transports.TerminalTransport(),
+});
+log.inf`Custom configured logger`;
+```
+
+Run examples:
+
+```bash
+deno task example:simple      # Basic usage
+deno task example:hierarchy   # Hierarchical loggers
+```
+
+## API Reference
+
+### Logger
+
+- `new Logger(name?)` - Create logger with name (string) or options (object)
+- `new Logger(options?)` - Create logger with options object
+- `logger.child(name, options?)` - Create child logger (options can be object or
+  postfix string)
+- `logger.trc(msg, metadata?)` - Log trace message
+- `logger.dbg(msg, metadata?)` - Log debug message
+- `logger.vrb(msg, metadata?)` - Log verbose message
+- `logger.inf(msg, metadata?)` - Log info message
+- `logger.usr(msg, metadata?)` - Log user message
+- `logger.wrn(msg, metadata?)` - Log warning message
+- `logger.err(msg | Error, metadata?)` - Log error message
+- `logger.ftl(msg, metadata?)` - Log fatal message
+
+## License
+
+[LGPL-2.1](LICENSE)

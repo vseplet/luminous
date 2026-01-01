@@ -1,5 +1,8 @@
 import { assertEquals } from "@std/assert";
-import { formatDate, getCurrentDateInTimezone } from "../../source/helpers/time.ts";
+import {
+  formatDate,
+  getCurrentDateInTimezone,
+} from "../../source/helpers/time.ts";
 
 Deno.test("formatDate should format date with yyyy-MM-dd pattern", () => {
   const date = new Date("2023-12-25T10:30:00");
@@ -53,8 +56,7 @@ Deno.test("getCurrentDateInTimezone should return Date object", () => {
 Deno.test("getCurrentDateInTimezone should handle different timezones", () => {
   const moscow = getCurrentDateInTimezone("Europe/Moscow");
   const london = getCurrentDateInTimezone("Europe/London");
-  
+
   assertEquals(moscow instanceof Date, true);
   assertEquals(london instanceof Date, true);
 });
-

@@ -68,4 +68,3 @@ Deno.test("colorStringByLevel should handle all levels", () => {
     assertEquals(result.length > 0, true);
   }
 });
-

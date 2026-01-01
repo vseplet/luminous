@@ -26,6 +26,20 @@ export interface LoggerOptions {
   listOfFormatterAndTransports: FormatterAndTransports[];
 }
 
+/**
+ * Simple options for creating a logger
+ */
+export interface LoggerInitOptions {
+  name?: string;
+  level?: Level;
+  postfix?: string;
+  // deno-lint-ignore no-explicit-any
+  formatter?: AbstractFormatter<any>;
+  // deno-lint-ignore no-explicit-any
+  transport?: AbstractTransport<any> | AbstractTransport<any>[];
+  excludedLevels?: Level[];
+}
+
 export abstract class AbstractTransport<
   // deno-lint-ignore no-explicit-any
   O extends { [key: string]: any },

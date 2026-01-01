@@ -38,4 +38,3 @@ childLog2.wrn`Hello from child 2`;
 // Иерархия: Parent -> Child -> Grandchild
 const grandchildLog = childLog1.child("Grandchild");
 grandchildLog.err`Hello from grandchild`;
-

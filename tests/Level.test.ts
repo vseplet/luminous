@@ -39,4 +39,3 @@ Deno.test("Level values should be in ascending order", () => {
     assertEquals(levels[i] < levels[i + 1], true);
   }
 });
-

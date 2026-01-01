@@ -13,9 +13,9 @@ Deno.test("TextFormatter should format message with default options", () => {
     msg: "Test message",
     metadata: {},
   };
-  
+
   const result = formatter.format(data);
-  
+
   assertEquals(typeof result, "string");
   assertStringIncludes(result, "[INF]");
   assertStringIncludes(result, "test");
@@ -32,9 +32,9 @@ Deno.test("TextFormatter should include timestamp by default", () => {
     msg: "Test message",
     metadata: {},
   };
-  
+
   const result = formatter.format(data);
-  
+
   // Timestamp should be present (format: HH:mm:ss.SSS)
   assertEquals(result.includes(":"), true);
 });
@@ -49,9 +49,9 @@ Deno.test("TextFormatter should hide timestamp when showTimestamp is false", () 
     msg: "Test message",
     metadata: {},
   };
-  
+
   const result = formatter.format(data);
-  
+
   // Should start with [INF] instead of timestamp
   assertStringIncludes(result, "[INF]");
   // Should not contain timestamp pattern (HH:mm:ss)
@@ -69,9 +69,9 @@ Deno.test("TextFormatter should show metadata when showMetadata is true", () => 
     msg: "Test message",
     metadata: { key: "value" },
   };
-  
+
   const result = formatter.format(data);
-  
+
   assertStringIncludes(result, "key");
   assertStringIncludes(result, "value");
 });
@@ -86,9 +86,9 @@ Deno.test("TextFormatter should hide metadata when showMetadata is false", () =>
     msg: "Test message",
     metadata: { key: "value" },
   };
-  
+
   const result = formatter.format(data);
-  
+
   assertEquals(result.includes("key"), false);
   assertEquals(result.includes("value"), false);
 });
@@ -105,9 +105,9 @@ Deno.test("TextFormatter should use custom timestamp pattern", () => {
     msg: "Test message",
     metadata: {},
   };
-  
+
   const result = formatter.format(data);
-  
+
   // Should contain date pattern (yyyy-MM-dd)
   assertEquals(result.includes("-"), true);
 });
@@ -122,9 +122,9 @@ Deno.test("TextFormatter should include parents in name", () => {
     msg: "Test message",
     metadata: {},
   };
-  
+
   const result = formatter.format(data);
-  
+
   assertStringIncludes(result, "parent1.parent2.test");
 });
 
@@ -138,9 +138,9 @@ Deno.test("TextFormatter should include postfix", () => {
     msg: "Test message",
     metadata: {},
   };
-  
+
   const result = formatter.format(data);
-  
+
   assertStringIncludes(result, "postfix");
 });
 
@@ -155,9 +155,9 @@ Deno.test("TextFormatter should include uuid when provided", () => {
     msg: "Test message",
     metadata: {},
   };
-  
+
   const result = formatter.format(data);
-  
+
   assertStringIncludes(result, "<12345>");
 });
 
@@ -173,7 +173,7 @@ Deno.test("TextFormatter should format all log levels", () => {
     Level.ERROR,
     Level.FATAL,
   ];
-  
+
   for (const level of levels) {
     const data: FormattedData = {
       parents: [],
@@ -183,7 +183,7 @@ Deno.test("TextFormatter should format all log levels", () => {
       msg: "Test message",
       metadata: {},
     };
-    
+
     const result = formatter.format(data);
     assertEquals(typeof result, "string");
     assertEquals(result.length > 0, true);
@@ -200,9 +200,9 @@ Deno.test("TextFormatter should colorize output by default", () => {
     msg: "Test message",
     metadata: {},
   };
-  
+
   const result = formatter.format(data);
-  
+
   // Colored output should contain ANSI codes
   assertEquals(result.length > 0, true);
 });
@@ -217,11 +217,10 @@ Deno.test("TextFormatter should not colorize when colorize is false", () => {
     msg: "Test message",
     metadata: {},
   };
-  
+
   const result = formatter.format(data);
-  
+
   // Should still be a valid string
   assertEquals(typeof result, "string");
   assertStringIncludes(result, "Test message");
 });
-

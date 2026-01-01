@@ -13,11 +13,11 @@ Deno.test("JsonFormatter should format message as JSON", () => {
     msg: "Test message",
     metadata: {},
   };
-  
+
   const result = formatter.format(data);
-  
+
   assertEquals(typeof result, "string");
-  
+
   // Should be valid JSON
   const parsed = JSON.parse(result);
   assertEquals(parsed.msg, "Test message");
@@ -35,10 +35,10 @@ Deno.test("JsonFormatter should include timestamp", () => {
     msg: "Test message",
     metadata: {},
   };
-  
+
   const result = formatter.format(data);
   const parsed = JSON.parse(result);
-  
+
   assertEquals(typeof parsed.time, "string");
   assertEquals(parsed.time.length > 0, true);
 });
@@ -53,10 +53,10 @@ Deno.test("JsonFormatter should include all data fields", () => {
     msg: "Test message",
     metadata: { key: "value" },
   };
-  
+
   const result = formatter.format(data);
   const parsed = JSON.parse(result);
-  
+
   assertEquals(Array.isArray(parsed.parents), true);
   assertEquals(parsed.parents[0], "parent1");
   assertEquals(parsed.name, "test");
@@ -78,10 +78,10 @@ Deno.test("JsonFormatter should use custom timestamp pattern", () => {
     msg: "Test message",
     metadata: {},
   };
-  
+
   const result = formatter.format(data);
   const parsed = JSON.parse(result);
-  
+
   // Should contain date pattern
   assertEquals(parsed.time.includes("-"), true);
 });
@@ -98,7 +98,7 @@ Deno.test("JsonFormatter should format all log levels", () => {
     Level.ERROR,
     Level.FATAL,
   ];
-  
+
   for (const level of levels) {
     const data: FormattedData = {
       parents: [],
@@ -108,10 +108,10 @@ Deno.test("JsonFormatter should format all log levels", () => {
       msg: "Test message",
       metadata: {},
     };
-    
+
     const result = formatter.format(data);
     const parsed = JSON.parse(result);
-    
+
     assertEquals(parsed.level, level);
     assertEquals(parsed.msg, "Test message");
   }
@@ -127,10 +127,10 @@ Deno.test("JsonFormatter should handle empty metadata", () => {
     msg: "Test message",
     metadata: {},
   };
-  
+
   const result = formatter.format(data);
   const parsed = JSON.parse(result);
-  
+
   assertEquals(typeof parsed.metadata, "object");
 });
 
@@ -148,12 +148,11 @@ Deno.test("JsonFormatter should handle complex metadata", () => {
       number: 42,
     },
   };
-  
+
   const result = formatter.format(data);
   const parsed = JSON.parse(result);
-  
+
   assertEquals(parsed.metadata.nested.key, "value");
   assertEquals(Array.isArray(parsed.metadata.array), true);
   assertEquals(parsed.metadata.number, 42);
 });
-

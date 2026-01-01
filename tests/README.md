@@ -7,9 +7,11 @@
 - `Level.test.ts` - тесты для уровней логирования (3 теста)
 - `Logger.test.ts` - тесты для основного класса Logger (17 тестов)
 - `OptionsBuilder.test.ts` - тесты для построителя опций (11 тестов)
-- `formatters/TextFormatter.test.ts` - тесты для текстового форматтера (12 тестов)
+- `formatters/TextFormatter.test.ts` - тесты для текстового форматтера (12
+  тестов)
 - `formatters/JsonFormatter.test.ts` - тесты для JSON форматтера (7 тестов)
-- `transports/TerminalTransport.test.ts` - тесты для терминального транспорта (3 теста)
+- `transports/TerminalTransport.test.ts` - тесты для терминального транспорта (3
+  теста)
 - `helpers/color.test.ts` - тесты для функций цветов (9 тестов)
 - `helpers/time.test.ts` - тесты для функций времени (9 тестов)
 
@@ -31,6 +33,7 @@ deno test --allow-all
 ## Покрытие
 
 Тесты покрывают:
+
 - ✅ Все уровни логирования
 - ✅ Все методы Logger (trc, dbg, vrb, inf, usr, wrn, err, ftl)
 - ✅ Обработку template strings
@@ -40,4 +43,3 @@ deno test --allow-all
 - ✅ Форматирование текста и JSON
 - ✅ Транспорты и их поведение
 - ✅ Вспомогательные функции (цвета, время)
-

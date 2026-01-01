@@ -1,5 +1,9 @@
 import { OptionsBuilder } from "$/OptionsBuilder.ts";
-import type { FormatterAndTransports, LoggerOptions } from "$types";
+import type {
+  FormatterAndTransports,
+  LoggerInitOptions,
+  LoggerOptions,
+} from "$types";
 import { Level } from "$/Level.ts";
 import { TextFormatter } from "$/formatters/TextFormatter.ts";
 import { TerminalTransport } from "$/transports/Terminal.ts";
@@ -23,22 +27,52 @@ export class Logger<MT = {}> {
   listOfFormatterAndTransports: FormatterAndTransports[] = [];
 
   constructor(
-    options: LoggerOptions = new OptionsBuilder().build(),
-    postfix: string = "",
+    options?: LoggerInitOptions | LoggerOptions | string,
+    postfix?: string,
   ) {
-    this.parents = options.parents;
-    this.name = options.name;
-    this.postfix = postfix;
-    this.loggingLevel = options.loggingLevel;
-    this.listOfFormatterAndTransports.push(
-      ...options.listOfFormatterAndTransports,
-    );
-    
-    // Применяем дефолтные транспорты, если их нет
-    if (this.listOfFormatterAndTransports.length === 0) {
+    // Если передан string, это name
+    if (typeof options === "string") {
+      this.name = options;
+      this.postfix = postfix || "";
+      this.listOfFormatterAndTransports.push(Logger.getDefaultTransports());
+      return;
+    }
+
+    // Если передан LoggerOptions (старый формат)
+    if (options && "listOfFormatterAndTransports" in options) {
+      const opts = options as LoggerOptions;
+      this.parents = opts.parents;
+      this.name = opts.name;
+      this.postfix = postfix || "";
+      this.loggingLevel = opts.loggingLevel;
       this.listOfFormatterAndTransports.push(
-        Logger.getDefaultTransports(),
+        ...opts.listOfFormatterAndTransports,
       );
+
+      if (this.listOfFormatterAndTransports.length === 0) {
+        this.listOfFormatterAndTransports.push(Logger.getDefaultTransports());
+      }
+      return;
+    }
+
+    // Новый формат LoggerInitOptions
+    const initOptions = (options || {}) as LoggerInitOptions;
+    this.name = initOptions.name || "default";
+    this.postfix = initOptions.postfix || postfix || "";
+    this.loggingLevel = initOptions.level || Level.TRACE;
+
+    // Добавляем транспорты, если указаны
+    if (initOptions.formatter && initOptions.transport) {
+      const transports = Array.isArray(initOptions.transport)
+        ? initOptions.transport
+        : [initOptions.transport];
+      this.listOfFormatterAndTransports.push({
+        formatter: initOptions.formatter,
+        transports,
+      });
+    } else {
+      // Применяем дефолтные транспорты, если их нет
+      this.listOfFormatterAndTransports.push(Logger.getDefaultTransports());
     }
   }
 
@@ -51,17 +85,6 @@ export class Logger<MT = {}> {
       formatter: new TextFormatter(),
       transports: [new TerminalTransport()],
     };
-  }
-
-  /**
-   * Create a new logger with a name
-   * @param name - Logger name
-   * @returns {Logger}
-   */
-  static create(name: string): Logger {
-    return new Logger(
-      new OptionsBuilder().setName(name).build(),
-    );
   }
 
   /**
@@ -175,18 +198,43 @@ export class Logger<MT = {}> {
   /**
    * Create a child logger
    * @param name - Child logger name
-   * @param postfix - Optional postfix
+   * @param options - Optional child logger options or postfix string
    * @returns {Logger}
    */
-  child(name: string, postfix: string = ""): Logger {
+  child(
+    name: string,
+    options?: LoggerInitOptions | string,
+  ): Logger {
+    // Если options - строка, это postfix
+    if (typeof options === "string") {
+      const childOptions: LoggerOptions = {
+        parents: [...this.parents, this.name],
+        name,
+        loggingLevel: this.loggingLevel,
+        excludedLoggingLevels: [],
+        listOfFormatterAndTransports: [...this.listOfFormatterAndTransports],
+      };
+      return new Logger(childOptions, options);
+    }
+
+    // Если options - объект или undefined
+    const initOptions = (options || {}) as LoggerInitOptions;
     const childOptions: LoggerOptions = {
       parents: [...this.parents, this.name],
       name,
-      loggingLevel: this.loggingLevel,
-      excludedLoggingLevels: [],
-      listOfFormatterAndTransports: [...this.listOfFormatterAndTransports],
+      loggingLevel: initOptions.level || this.loggingLevel,
+      excludedLoggingLevels: initOptions.excludedLevels || [],
+      listOfFormatterAndTransports:
+        initOptions.formatter && initOptions.transport
+          ? [{
+            formatter: initOptions.formatter,
+            transports: Array.isArray(initOptions.transport)
+              ? initOptions.transport
+              : [initOptions.transport],
+          }]
+          : [...this.listOfFormatterAndTransports],
     };
 
-    return new Logger(childOptions, postfix);
+    return new Logger(childOptions, initOptions.postfix || "");
   }
 }
