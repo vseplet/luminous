@@ -1,45 +1,42 @@
-# Тесты для Luminous
+# Luminous Tests
 
-Этот каталог содержит тесты для библиотеки логирования Luminous.
+This directory contains tests for the Luminous logging library.
 
-## Структура тестов
+## Test Structure
 
-- `Level.test.ts` - тесты для уровней логирования (3 теста)
-- `Logger.test.ts` - тесты для основного класса Logger (17 тестов)
-- `OptionsBuilder.test.ts` - тесты для построителя опций (11 тестов)
-- `formatters/TextFormatter.test.ts` - тесты для текстового форматтера (12
-  тестов)
-- `formatters/JsonFormatter.test.ts` - тесты для JSON форматтера (7 тестов)
-- `transports/TerminalTransport.test.ts` - тесты для терминального транспорта (3
-  теста)
-- `helpers/color.test.ts` - тесты для функций цветов (9 тестов)
-- `helpers/time.test.ts` - тесты для функций времени (9 тестов)
+- `Level.test.ts` - tests for logging levels
+- `Logger.test.ts` - tests for the main Logger class
+- `Logger.fluent.test.ts` - tests for fluent API and logger creation
+- `OptionsBuilder.test.ts` - tests for the options builder
+- `formatters/TextFormatter.test.ts` - tests for the text formatter
+- `formatters/JsonFormatter.test.ts` - tests for the JSON formatter
+- `transports/TerminalTransport.test.ts` - tests for the terminal transport
+- `helpers/color.test.ts` - tests for color functions
+- `helpers/time.test.ts` - tests for time functions
 
-**Всего: 71 тест**
-
-## Запуск тестов
+## Running Tests
 
 ```bash
-# Запустить все тесты
+# Run all tests
 deno task test
 
-# Запустить тесты в режиме watch
+# Run tests in watch mode
 deno task test:watch
 
-# Запустить тесты напрямую
+# Run tests directly
 deno test --allow-all
 ```
 
-## Покрытие
+## Coverage
 
-Тесты покрывают:
+Tests cover:
 
-- ✅ Все уровни логирования
-- ✅ Все методы Logger (trc, dbg, vrb, inf, usr, wrn, err, ftl)
-- ✅ Обработку template strings
-- ✅ Метаданные и их форматирование
-- ✅ Наследование опций от родительских логгеров
-- ✅ Все опции OptionsBuilder
-- ✅ Форматирование текста и JSON
-- ✅ Транспорты и их поведение
-- ✅ Вспомогательные функции (цвета, время)
+- ✅ All logging levels
+- ✅ All Logger methods (trc, dbg, vrb, inf, usr, wrn, err, ftl)
+- ✅ Template strings handling
+- ✅ Metadata and its formatting
+- ✅ Options inheritance from parent loggers
+- ✅ All OptionsBuilder options
+- ✅ Text and JSON formatting
+- ✅ Transports and their behavior
+- ✅ Helper functions (colors, time)

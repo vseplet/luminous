@@ -7,6 +7,9 @@ import { Level } from "$/Level.ts";
 import { TextFormatter } from "$/formatters/TextFormatter.ts";
 import { TerminalTransport } from "$/transports/Terminal.ts";
 
+/**
+ * Type for log messages - can be a string or template string array
+ */
 export type MessageType = string | TemplateStringsArray;
 
 /**

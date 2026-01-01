@@ -39,7 +39,10 @@ export function formatDate(date: Date, pattern: string): string {
     .replace("SSS", `${milliseconds}`.padStart(3, "0")); // Вставляем миллисекунды
 }
 /**
- * Timezone constants
+ * Timezone constants organized by continent
+ *
+ * Provides a convenient collection of commonly used timezone identifiers
+ * for use with `getCurrentDateInTimezone` and other date/time functions.
  */
 export const Timeszone = {
   Europe: {

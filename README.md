@@ -160,7 +160,7 @@ import luminous from "jsr:@vseplet/luminous@2.1.0";
 const log = new luminous.Logger("MyApp");
 log.inf`Application started`;
 log.err(new Error("Something went wrong"));
-// Metadata передается вторым аргументом (не работает с template strings)
+// Metadata is passed as second argument (doesn't work with template strings)
 log.inf("User logged in", { userId: 123, username: "john" });
 ```
 
