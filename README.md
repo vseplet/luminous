@@ -14,7 +14,7 @@ hierarchical loggers, and customizable formatters.
 ## Quick Start
 
 ```ts
-import luminous from "jsr:@vseplet/luminous@1.0.6";
+import luminous from "jsr:@vseplet/luminous@2.0.0";
 
 // Create a logger with name
 const log = new luminous.Logger("MyApp");
@@ -155,7 +155,7 @@ const formatter = new JsonFormatter({
 ### Basic Usage
 
 ```ts
-import luminous from "jsr:@vseplet/luminous@1.0.6";
+import luminous from "jsr:@vseplet/luminous@2.0.0";
 
 const log = new luminous.Logger("MyApp");
 log.inf`Application started`;
@@ -166,7 +166,7 @@ log.inf`User logged in`, { userId: 123, username: "john" };
 ### Hierarchical Logging
 
 ```ts
-import luminous from "jsr:@vseplet/luminous@1.0.6";
+import luminous from "jsr:@vseplet/luminous@2.0.0";
 
 // Setup parent logger
 const app = new luminous.Logger("App");
@@ -182,7 +182,7 @@ db.wrn`Connection pool exhausted`;
 ### Custom Configuration
 
 ```ts
-import luminous from "jsr:@vseplet/luminous@1.0.6";
+import luminous from "jsr:@vseplet/luminous@2.0.0";
 
 const log = new luminous.Logger({
   name: "MyApp",
