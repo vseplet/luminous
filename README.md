@@ -1,25 +1,44 @@
 # luminous
 
+Highly configurable logger for Deno with multiple transports and formatters.
+
 [![JSR](https://jsr.io/badges/@vseplet/luminous)](https://jsr.io/@vseplet/luminous)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/vseplet/luminous)](https://github.com/vseplet/luminous/pulse)
 [![GitHub last commit](https://img.shields.io/github/last-commit/vseplet/luminous)](https://github.com/vseplet/luminous/commits/main)
 
-> ⚠️ This package is under active development. Contributions and feedback are
-> welcome!
+> **Note:** This package is under active development. Contributions, feedback, and pull requests are welcome!
 
-Luminous is a highly configurable logger for Deno written in TypeScript. It
-provides a simple and flexible way to log events with various severity levels,
-hierarchical loggers, and customizable formatters.
+## Contents
+
+- [Quick Start](#quick-start)
+- [Installation](#installation)
+- [Logging Levels](#logging-levels)
+- [Creating Loggers](#creating-loggers)
+- [Transports](#transports)
+- [Formatters](#formatters)
+- [Examples](#examples)
+- [API Reference](#api-reference)
+- [License](#license)
 
 ## Quick Start
 
 ```ts
-import luminous from "jsr:@vseplet/luminous@2.2.0";
+import luminous from "jsr:@vseplet/luminous";
 
 // Create a logger with name
 const log = new luminous.Logger("MyApp");
 log.inf`Hello, World!`;
 // 02:15:30.123 [INF] MyApp: Hello, World!
+```
+
+## Installation
+
+```bash
+deno add @vseplet/luminous
+```
+
+```ts
+import luminous from "@vseplet/luminous";
 ```
 
 ## Logging Levels
@@ -155,7 +174,7 @@ const formatter = new JsonFormatter({
 ### Basic Usage
 
 ```ts
-import luminous from "jsr:@vseplet/luminous@2.2.0";
+import luminous from "@vseplet/luminous";
 
 const log = new luminous.Logger("MyApp");
 log.inf`Application started`;
@@ -167,7 +186,7 @@ log.inf("User logged in", { userId: 123, username: "john" });
 ### Hierarchical Logging
 
 ```ts
-import luminous from "jsr:@vseplet/luminous@2.2.0";
+import luminous from "@vseplet/luminous";
 
 // Setup parent logger
 const app = new luminous.Logger("App");
@@ -183,7 +202,7 @@ db.wrn`Connection pool exhausted`;
 ### Custom Configuration
 
 ```ts
-import luminous from "jsr:@vseplet/luminous@2.2.0";
+import luminous from "@vseplet/luminous";
 
 const log = new luminous.Logger({
   name: "MyApp",
@@ -223,4 +242,4 @@ deno task example:hierarchy   # Hierarchical loggers
 
 ## License
 
-[LGPL-2.1](LICENSE)
+[MIT](./LICENSE)
