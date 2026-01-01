@@ -1,6 +1,8 @@
-import { OptionsBuilder } from "./OptionsBuilder.ts";
+import { OptionsBuilder } from "$/OptionsBuilder.ts";
 import type { FormatterAndTransports, LoggerOptions } from "$types";
-import { Level } from "./Level.ts";
+import { Level } from "$/Level.ts";
+import { TextFormatter } from "$/formatters/TextFormatter.ts";
+import { TerminalTransport } from "$/transports/Terminal.ts";
 
 export type MessageType = string | TemplateStringsArray;
 
@@ -30,6 +32,35 @@ export class Logger<MT = {}> {
     this.loggingLevel = options.loggingLevel;
     this.listOfFormatterAndTransports.push(
       ...options.listOfFormatterAndTransports,
+    );
+    
+    // Применяем дефолтные транспорты, если их нет
+    if (this.listOfFormatterAndTransports.length === 0) {
+      this.listOfFormatterAndTransports.push(
+        Logger.getDefaultTransports(),
+      );
+    }
+  }
+
+  /**
+   * Get default formatter and transport
+   * @returns {FormatterAndTransports}
+   */
+  static getDefaultTransports(): FormatterAndTransports {
+    return {
+      formatter: new TextFormatter(),
+      transports: [new TerminalTransport()],
+    };
+  }
+
+  /**
+   * Create a new logger with a name
+   * @param name - Logger name
+   * @returns {Logger}
+   */
+  static create(name: string): Logger {
+    return new Logger(
+      new OptionsBuilder().setName(name).build(),
     );
   }
 
@@ -139,5 +170,23 @@ export class Logger<MT = {}> {
    */
   ftl(msg: MessageType, metadata: MT = {} as MT) {
     return this.def(Level.FATAL, msg, metadata);
+  }
+
+  /**
+   * Create a child logger
+   * @param name - Child logger name
+   * @param postfix - Optional postfix
+   * @returns {Logger}
+   */
+  child(name: string, postfix: string = ""): Logger {
+    const childOptions: LoggerOptions = {
+      parents: [...this.parents, this.name],
+      name,
+      loggingLevel: this.loggingLevel,
+      excludedLoggingLevels: [],
+      listOfFormatterAndTransports: [...this.listOfFormatterAndTransports],
+    };
+
+    return new Logger(childOptions, postfix);
   }
 }

@@ -1,6 +1,6 @@
-import { colorStringByLevel } from "../helpers/color.ts";
-import { formatDate } from "../helpers/time.ts";
-import { LevelShortName } from "../Level.ts";
+import { colorStringByLevel } from "$/helpers/color.ts";
+import { formatDate } from "$/helpers/time.ts";
+import { LevelShortName } from "$/Level.ts";
 import { AbstractFormatter, type FormattedData } from "$types";
 
 /**

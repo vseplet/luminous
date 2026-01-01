@@ -1,4 +1,4 @@
-import type { Level } from "../Level.ts";
+import type { Level } from "$/Level.ts";
 import { AbstractTransport, type FormattedData } from "$types";
 
 interface LogfareTransportOptions {

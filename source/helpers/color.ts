@@ -1,5 +1,5 @@
 import * as colors from "@std/fmt/colors";
-import { Level } from "../Level.ts";
+import { Level } from "$/Level.ts";
 
 /**
  * Color string by level of log message (for console)

@@ -1,4 +1,4 @@
-import type { Level } from "./Level.ts";
+import type { Level } from "$/Level.ts";
 
 export type FormattedData = {
   parents: Array<string>;

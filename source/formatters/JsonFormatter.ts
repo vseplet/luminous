@@ -1,4 +1,4 @@
-import { formatDate } from "../helpers/time.ts";
+import { formatDate } from "$/helpers/time.ts";
 import { AbstractFormatter, type FormattedData } from "$types";
 
 /**

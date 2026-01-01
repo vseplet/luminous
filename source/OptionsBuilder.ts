@@ -1,12 +1,12 @@
-import { TextFormatter } from "./formatters/TextFormatter.ts";
-import { TerminalTransport } from "./transports/Terminal.ts";
+import { TextFormatter } from "$/formatters/TextFormatter.ts";
+import { TerminalTransport } from "$/transports/Terminal.ts";
 import type {
   AbstractFormatter,
   AbstractTransport,
   FormatterAndTransports,
   LoggerOptions,
 } from "$types";
-import { Level } from "./Level.ts";
+import { Level } from "$/Level.ts";
 
 /**
  * OptionsBuilder

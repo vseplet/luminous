@@ -1,9 +1,9 @@
-import * as helpers from "./helpers/mod.ts";
-import * as transports from "./transports/mod.ts";
-import * as formatters from "./formatters/mod.ts";
-import { OptionsBuilder } from "./OptionsBuilder.ts";
-import { Logger } from "./Logger.ts";
-import { Level } from "./Level.ts";
+import * as helpers from "$helpers";
+import * as transports from "$/transports/mod.ts";
+import * as formatters from "$/formatters/mod.ts";
+import { OptionsBuilder } from "$/OptionsBuilder.ts";
+import { Logger } from "$/Logger.ts";
+import { Level } from "$/Level.ts";
 
 const luminous = {
   helpers,
