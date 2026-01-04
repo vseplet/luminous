@@ -6,7 +6,8 @@ Highly configurable logger for Deno with multiple transports and formatters.
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/vseplet/luminous)](https://github.com/vseplet/luminous/pulse)
 [![GitHub last commit](https://img.shields.io/github/last-commit/vseplet/luminous)](https://github.com/vseplet/luminous/commits/main)
 
-> **Note:** This package is under active development. Contributions, feedback, and pull requests are welcome!
+> **Note:** This package is under active development. Contributions, feedback,
+> and pull requests are welcome!
 
 ## Contents
 

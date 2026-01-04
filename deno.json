@@ -28,7 +28,8 @@
     "example:simple": "deno run --allow-all ./examples/simple.ts",
     "pub-dry": "deno publish --dry-run --allow-slow-types",
     "test": "deno test --allow-all",
-    "test:watch": "deno test --allow-all --watch"
+    "test:watch": "deno test --allow-all --watch",
+    "test:coverage": "deno test --allow-all --coverage=coverage && deno coverage coverage"
   },
   "fmt": {
     "exclude": [
@@ -36,7 +37,10 @@
       ".idea",
       ".fleet",
       ".git",
-      "./source/versions.ts"
+      "coverage",
+      "deno.json",
+      "README.md",
+      "source/versions.ts"
     ]
   }
 }
