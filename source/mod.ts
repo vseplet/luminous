@@ -12,7 +12,7 @@
  * import luminous from "jsr:@vseplet/luminous";
  *
  * const log = new luminous.Logger("MyApp");
- * log.inf`Hello, World!`;
+ * log.inf(`Hello, World!`);
  * ```
  */
 
